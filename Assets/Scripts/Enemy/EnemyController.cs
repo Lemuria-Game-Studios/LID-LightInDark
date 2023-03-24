@@ -1,24 +1,36 @@
-using Enemy;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+namespace Enemy
 {
-    private EnemySensor _sensor;
-    private EnemyMover _mover;
-
-    private void Awake()
+    public class EnemyController : MonoBehaviour
     {
-        _sensor = GetComponent<EnemySensor>();
-        _mover = GetComponent<EnemyMover>();
-    }
+        [HideInInspector] public Transform target; 
+        private EnemySensor _sensor;
+        private EnemyMover _mover;
 
-    private void Update()
-    {
-        CheckIfPlayerDetected();
-    }
+        private void Awake()
+        {
+            _sensor = GetComponent<EnemySensor>();
+            _mover = GetComponent<EnemyMover>();
+        }
 
-    private void CheckIfPlayerDetected()
-    {
-        _mover.isMovingToPlayer = _sensor.isPlayerDetected;
+        private void Update()
+        {
+            CheckIfPlayerDetected();
+        }
+
+        private void CheckIfPlayerDetected()
+        {
+            if (_sensor.isPlayerDetected)
+            {
+                target = _sensor.target;
+                _mover.target = target;
+                _mover.isMovingToPlayer = true;
+            }
+            else
+            {
+                _mover.isMovingToPlayer = false;
+            }
+        }
     }
 }

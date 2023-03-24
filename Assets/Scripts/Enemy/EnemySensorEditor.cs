@@ -20,7 +20,7 @@ namespace Enemy
             if (_sensor.isPlayerDetected)
             {
                 Handles.color = Color.black;
-                Handles.DrawLine(_sensor.transform.position, _sensor.player.transform.position);
+                Handles.DrawLine(_sensor.transform.position, _sensor.target.transform.position);
             }
         }
 

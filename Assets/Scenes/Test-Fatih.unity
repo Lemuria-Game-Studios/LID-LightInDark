@@ -2412,8 +2412,8 @@ GameObject:
   - component: {fileID: 1407938872}
   - component: {fileID: 1407938866}
   - component: {fileID: 1407938875}
-  - component: {fileID: 1407938874}
   - component: {fileID: 1407938873}
+  - component: {fileID: 1407938874}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -2541,7 +2541,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   isPlayerDetected: 0
-  player: {fileID: 641507172}
+  target: {fileID: 0}
 --- !u!114 &1407938874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2594,7 +2594,7 @@ MonoBehaviour:
   wanderRange: 15
   isMovingToPlayer: 0
   _isDestinationSet: 0
-  player: {fileID: 641507172}
+  target: {fileID: 0}
 --- !u!114 &1407938875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2607,6 +2607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52922730aa853846905d85dd51f0dab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
 --- !u!1 &1506602103
 GameObject:
   m_ObjectHideFlags: 0

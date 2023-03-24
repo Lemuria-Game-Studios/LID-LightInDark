@@ -5,20 +5,21 @@ namespace Enemy
 {
      public class EnemySensor : MonoBehaviour
      {
-          [SerializeField] public float sightRange;
-          [SerializeField] [Range(0,360)] public float sightAngle;
-          [SerializeField] public float sensoryRange;
+          public float sightRange;
+          [Range(0,360)] public float sightAngle;
+          public float sensoryRange;
           [SerializeField] private LayerMask targetLayer;
           [SerializeField] private LayerMask obstructionLayer;
      
           public bool isPlayerDetected;
 
-
-          public GameObject player;
+          [HideInInspector] public Transform target;
+          
+          private EnemyController _controller;
 
           private void Awake()
           {
-               //find player here
+               _controller = GetComponent<EnemyController>();
           }
 
           private void Start()
@@ -43,7 +44,7 @@ namespace Enemy
 
                if (rangeChecks.Length != 0)
                {
-                    Transform target = rangeChecks[0].transform;
+                    target = rangeChecks[0].transform;
                     Vector3 directionToTarget = (target.position - transform.position).normalized;
                     float distanceToTarget = Vector3.Distance(transform.position, target.position);
                
