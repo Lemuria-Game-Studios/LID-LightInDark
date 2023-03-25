@@ -31,6 +31,8 @@ namespace Enemy
 
         private void SetDestination()
         {
+            if (!canMove) return;
+            
             if (isMovingToPlayer)
             {
                 _isDestinationSet = true;
@@ -51,11 +53,12 @@ namespace Enemy
         private void SetIfCanMove()
         {
             _nav.isStopped = !canMove;
+            if (!canMove) GetComponent<NavMeshAgent>().velocity = Vector3.zero;
         }
         
         private void CheckIfReached()
         {
-            if (Vector3.Distance(_nav.destination, transform.position) < 1f)
+            if (Vector3.Distance(_nav.destination, transform.position) < 1f || _nav.isStopped)
             {
                 StartCoroutine(SetIsDestinationSetFalseAfterDelay());
             }
