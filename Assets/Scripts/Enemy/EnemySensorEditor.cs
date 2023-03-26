@@ -26,13 +26,13 @@ namespace Enemy
 
         private void SetSensoryFOV()
         {
-            Handles.color = Color.yellow;
+            Handles.color = Color.magenta;
             Handles.DrawWireArc(_sensor.transform.position, Vector3.up, Vector3.forward,  360f, _sensor.sensoryRange);
         }
 
         private void SetSightFOV()
         {
-            Handles.color = Color.red;
+            Handles.color = Color.magenta;
             var pos = _sensor.transform.position;
             Handles.DrawWireArc(pos, Vector3.up, DirectionFromAngle(_sensor.transform.eulerAngles.y, -_sensor.sightAngle / 2) , _sensor.sightAngle, _sensor.sightRange);
             Vector3 viewAngle01 = DirectionFromAngle(_sensor.transform.eulerAngles.y, -_sensor.sightAngle / 2);
