@@ -22,6 +22,7 @@ namespace Managers
         private void OnAttacking()
         {
             AnimationSignals.Instance.onAttackingAnimation?.Invoke(_animator);
+            PlayerSignals.Instance.onSettingSpeed?.Invoke(1);
         }
 
         private void OnSpelling()

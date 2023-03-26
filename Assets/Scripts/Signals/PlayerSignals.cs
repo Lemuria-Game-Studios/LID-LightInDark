@@ -7,5 +7,7 @@ namespace Signals
     {
         public UnityAction onAttacking = delegate { };
         public UnityAction onSpelling = delegate {  };
+        public UnityAction<float> onSettingSpeed = delegate {  };
+        public UnityAction onDashing =delegate {  };
     }
 }
