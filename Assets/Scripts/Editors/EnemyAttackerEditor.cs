@@ -1,7 +1,8 @@
+using Enemy;
 using UnityEditor;
 using UnityEngine;
 
-namespace Enemy
+namespace Editors
 {
     [CustomEditor(typeof(EnemyAttacker))]
     public class EnemyAttackerEditor : Editor
@@ -24,10 +25,12 @@ namespace Enemy
         {
             Handles.color = Color.red;
             var pos = _attacker.transform.position;
-            Handles.DrawWireArc(pos, Vector3.up, DirectionFromAngle(_attacker.transform.eulerAngles.y, -_attacker.attackAngle / 2) , _attacker.attackAngle, _attacker.attackRange);
-            Vector3 viewAngle01 = DirectionFromAngle(_attacker.transform.eulerAngles.y, -_attacker.attackAngle / 2);
-            Vector3 viewAngle02 = DirectionFromAngle(_attacker.transform.eulerAngles.y, _attacker.attackAngle / 2);
-        
+            var angle = _attacker.transform.eulerAngles;
+            
+            Vector3 viewAngle01 = DirectionFromAngle(angle.y, -_attacker.attackAngle / 2);
+            Vector3 viewAngle02 = DirectionFromAngle(angle.y, _attacker.attackAngle / 2);
+            
+            Handles.DrawWireArc(pos, Vector3.up, viewAngle01 , _attacker.attackAngle, _attacker.attackRange);
             Handles.DrawLine(pos, pos + viewAngle01 * _attacker.attackRange);
             Handles.DrawLine(pos, pos + viewAngle02 * _attacker.attackRange);
         }

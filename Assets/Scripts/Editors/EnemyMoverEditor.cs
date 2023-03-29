@@ -1,7 +1,8 @@
+using Enemy;
 using UnityEditor;
 using UnityEngine;
 
-namespace Enemy
+namespace Editors
 {
     [CustomEditor(typeof(EnemyMover))]
     public class EnemyMoverEditor : Editor

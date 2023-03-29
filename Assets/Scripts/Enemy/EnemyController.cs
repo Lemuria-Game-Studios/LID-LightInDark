@@ -5,7 +5,11 @@ namespace Enemy
 {
     public class EnemyController : MonoBehaviour
     {
-        [HideInInspector] public Transform target; 
+        [HideInInspector] public Transform target;
+
+        private enum EnemyStates
+        { Wandering, MovingToPlayer, Aiming, Attacking }
+        private EnemyStates _state = EnemyStates.Wandering;    
         private EnemySensor _sensor;
         private EnemyMover _mover;
         private EnemyAttacker _attacker;
@@ -21,29 +25,55 @@ namespace Enemy
 
         private void Update()
         {
-            CheckIfPlayerDetected();
+            SetState();
+            SetTarget();
+            SetIfCanMove();
+            SetAttacking();
         }
 
-        private void CheckIfPlayerDetected()
+        private void SetState()
         {
-            _mover.canMove = !_attacker.isAttacking;
+            if (_attacker.isAttacking) _state = EnemyStates.Attacking;
+            else if (_attacker.isInRange) _state = EnemyStates.Aiming;
+            else if (_sensor.isPlayerDetected) _state = EnemyStates.MovingToPlayer;
+            else _state = EnemyStates.Wandering;
+        }
 
-            if (_sensor.isPlayerDetected)
+        private void SetIfCanMove()
+        {
+            switch (_state)
             {
-                target = _sensor.target;
-                _mover.target = target;
-                _attacker.target = target;
-                
-                _mover.isMovingToPlayer = true;
-                if (_attacker.isInRange)
-                {
+                case EnemyStates.Wandering:
+                    _mover.isMovingToPlayer = false;
+                    break;
+                case EnemyStates.MovingToPlayer:
+                    _mover.isMovingToPlayer = true;
+                    break;
+                case EnemyStates.Aiming:
                     _nav.velocity = Vector3.zero;
-                    _attacker.Attack();
-                }
+                    _mover.canMove = true;
+                    break;
+                case EnemyStates.Attacking:
+                    _nav.velocity = Vector3.zero;
+                    _mover.canMove = false;
+                    break;
             }
-            else
+        }
+
+        private void SetTarget()
+        {
+            if (_state == EnemyStates.Wandering) return;
+            
+            target = _sensor.target;
+            _mover.target = target;
+            _attacker.target = target;
+        }
+        
+        private void SetAttacking()
+        {
+            if (_state == EnemyStates.Aiming)
             {
-                _mover.isMovingToPlayer = false;
+                _attacker.Attack();
             }
         }
     }

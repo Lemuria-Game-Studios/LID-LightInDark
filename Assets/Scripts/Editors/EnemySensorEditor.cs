@@ -1,7 +1,8 @@
+using Enemy;
 using UnityEditor;
 using UnityEngine;
 
-namespace Enemy
+namespace Editors
 {
     [CustomEditor(typeof(EnemySensor))]
     public class EnemySensorEditor : Editor
@@ -34,10 +35,12 @@ namespace Enemy
         {
             Handles.color = Color.magenta;
             var pos = _sensor.transform.position;
-            Handles.DrawWireArc(pos, Vector3.up, DirectionFromAngle(_sensor.transform.eulerAngles.y, -_sensor.sightAngle / 2) , _sensor.sightAngle, _sensor.sightRange);
-            Vector3 viewAngle01 = DirectionFromAngle(_sensor.transform.eulerAngles.y, -_sensor.sightAngle / 2);
-            Vector3 viewAngle02 = DirectionFromAngle(_sensor.transform.eulerAngles.y, _sensor.sightAngle / 2);
-        
+            var angle = _sensor.transform.eulerAngles;
+            
+            Vector3 viewAngle01 = DirectionFromAngle(angle.y, -_sensor.sightAngle / 2);
+            Vector3 viewAngle02 = DirectionFromAngle(angle.y, _sensor.sightAngle / 2);
+            
+            Handles.DrawWireArc(pos, Vector3.up, viewAngle01 , _sensor.sightAngle, _sensor.sightRange);
             Handles.DrawLine(pos, pos + viewAngle01 * _sensor.sightRange);
             Handles.DrawLine(pos, pos + viewAngle02 * _sensor.sightRange);
         }
