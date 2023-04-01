@@ -27,6 +27,7 @@ namespace Common
             if (amount < 0) getHitFb.PlayFeedbacks();
             if (WeakPointEnabled && CheckIfWeakPoint(getHitPosition))_currentHealth += amount * weakPointDamageAmplification;
             else _currentHealth += amount;
+            CheckIfMaxHealthReached();
             CheckIfDead();
         }
 
@@ -37,6 +38,11 @@ namespace Common
                 new Vector3(getHitPosition.x, transform.position.y, getHitPosition.z) - transform.position) < WeakPointAngle / 2;
         }
 
+        private void CheckIfMaxHealthReached()
+        {
+            if (_currentHealth > maxHealth) _currentHealth = maxHealth;
+        }
+        
         private void CheckIfDead()
         {
             if (_currentHealth <= 0) Die();
