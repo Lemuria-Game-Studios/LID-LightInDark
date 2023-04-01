@@ -8,22 +8,80 @@ namespace Editors
     public class HealthEditor : Editor
     {
         private Health _health;
-        private void OnSceneGUI()
+
+        #region SerializedProperties
+
+        private SerializedProperty _maxHealth;
+        
+        private SerializedProperty _weakPointEnabled;
+        private SerializedProperty _weakPointDamageAmplification;
+        private SerializedProperty _weakPointAngle;
+        private SerializedProperty _weakPointPosition;
+        
+        private SerializedProperty _getHitFb;
+        private SerializedProperty _dieFb;
+
+        private bool _feedbackList;
+        #endregion
+
+        private void OnEnable()
         {
             _health = (Health)target;
+            
+            _maxHealth = serializedObject.FindProperty("maxHealth");
+            
+            _weakPointEnabled = serializedObject.FindProperty("WeakPointEnabled");
+            _weakPointDamageAmplification = serializedObject.FindProperty("weakPointDamageAmplification");
+            _weakPointAngle = serializedObject.FindProperty("WeakPointAngle");
+            _weakPointPosition = serializedObject.FindProperty("WeakPointPosition");
+
+            _getHitFb = serializedObject.FindProperty("getHitFb");
+            _dieFb = serializedObject.FindProperty("dieFb");
+            
+        }
+
+        public override void OnInspectorGUI()
+        {
+            serializedObject.Update();
+            
+            EditorGUILayout.PropertyField(_maxHealth);
+            if (_health.WeakPointEnabled) EditorGUILayout.Space(10);
+            EditorGUILayout.PropertyField(_weakPointEnabled);
+            if (_health.WeakPointEnabled)
+            {
+                
+                EditorGUILayout.PropertyField(_weakPointDamageAmplification);
+                EditorGUILayout.PropertyField(_weakPointAngle);
+                EditorGUILayout.PropertyField(_weakPointPosition);
+                EditorGUILayout.Space(10);
+            }
+            _feedbackList = EditorGUILayout.BeginFoldoutHeaderGroup(_feedbackList, "Feedbacks");
+            if (_feedbackList)
+            {
+                EditorGUILayout.PropertyField(_getHitFb);
+                EditorGUILayout.PropertyField(_dieFb);
+            }
+
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        private void OnSceneGUI()
+        {
             SetWeakPointFOV();
         }
 
         private void SetWeakPointFOV()
         {
+            if (!_health.WeakPointEnabled) return;
+            
             Handles.color = Color.blue;
             var pos = _health.transform.position;
             var angle = _health.transform.eulerAngles;
             
-            Vector3 viewAngle01 = DirectionFromAngle(angle.y, -_health.weakPointAngle / 2 + _health.weakPointPosition);
-            Vector3 viewAngle02 = DirectionFromAngle(angle.y, _health.weakPointAngle / 2 + _health.weakPointPosition);
+            Vector3 viewAngle01 = DirectionFromAngle(angle.y, -_health.WeakPointAngle / 2 + _health.WeakPointPosition);
+            Vector3 viewAngle02 = DirectionFromAngle(angle.y, _health.WeakPointAngle / 2 + _health.WeakPointPosition);
             
-            Handles.DrawWireArc(pos, Vector3.up, viewAngle01 , _health.weakPointAngle, 5);
+            Handles.DrawWireArc(pos, Vector3.up, viewAngle01 , _health.WeakPointAngle, 5);
             Handles.DrawLine(pos, pos + viewAngle01 * 5);
             Handles.DrawLine(pos, pos + viewAngle02 * 5);
         }

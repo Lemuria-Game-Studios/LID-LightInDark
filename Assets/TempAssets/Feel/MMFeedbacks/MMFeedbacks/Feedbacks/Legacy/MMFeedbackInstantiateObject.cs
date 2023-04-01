@@ -54,6 +54,7 @@ namespace MoreMountains.Feedbacks
 		[Tooltip("the position offset at which to instantiate the object")]
 		[FormerlySerializedAs("VfxPositionOffset")]
 		public Vector3 PositionOffset;
+		
 
 		[Header("Object Pool")]
 		/// whether or not we should create automatically an object pool for this object
@@ -163,7 +164,8 @@ namespace MoreMountains.Feedbacks
 				case PositionModes.FeedbackPosition:
 					return this.transform.position + PositionOffset;
 				case PositionModes.Transform:
-					return TargetTransform.position + PositionOffset;
+					if (AlsoApplyRotation) return TargetTransform.position + (TargetTransform.rotation * PositionOffset);
+					else return TargetTransform.position + PositionOffset;
 				case PositionModes.WorldPosition:
 					return TargetPosition + PositionOffset;
 				case PositionModes.Script:

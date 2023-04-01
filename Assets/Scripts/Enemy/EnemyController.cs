@@ -5,7 +5,7 @@ namespace Enemy
 {
     public class EnemyController : MonoBehaviour
     {
-        [HideInInspector] public Transform target;
+        [HideInInspector] public Transform Target;
 
         private enum EnemyStates
         { Wandering, MovingToPlayer, Aiming, Attacking }
@@ -33,9 +33,9 @@ namespace Enemy
 
         private void SetState()
         {
-            if (_attacker.isAttacking) _state = EnemyStates.Attacking;
-            else if (_attacker.isInRange) _state = EnemyStates.Aiming;
-            else if (_sensor.isPlayerDetected) _state = EnemyStates.MovingToPlayer;
+            if (_attacker.IsAttacking) _state = EnemyStates.Attacking;
+            else if (_attacker.IsInRange) _state = EnemyStates.Aiming;
+            else if (_sensor.IsPlayerDetected) _state = EnemyStates.MovingToPlayer;
             else _state = EnemyStates.Wandering;
         }
 
@@ -45,9 +45,11 @@ namespace Enemy
             {
                 case EnemyStates.Wandering:
                     _mover.isMovingToPlayer = false;
+                    _mover.canMove = true;
                     break;
                 case EnemyStates.MovingToPlayer:
                     _mover.isMovingToPlayer = true;
+                    _mover.canMove = true;
                     break;
                 case EnemyStates.Aiming:
                     _nav.velocity = Vector3.zero;
@@ -64,9 +66,9 @@ namespace Enemy
         {
             if (_state == EnemyStates.Wandering) return;
             
-            target = _sensor.target;
-            _mover.target = target;
-            _attacker.target = target;
+            Target = _sensor.Target;
+            _mover.target = Target;
+            _attacker.Target = Target;
         }
         
         private void SetAttacking()

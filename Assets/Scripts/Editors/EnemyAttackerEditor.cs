@@ -18,7 +18,7 @@ namespace Editors
         private void SetAttackRange()
         {
             Handles.color = Color.yellow;
-            Handles.DrawWireArc(_attacker.transform.position, Vector3.up, Vector3.forward,  360f, _attacker.attackRange);
+            Handles.DrawWireArc(_attacker.transform.position, Vector3.up, Vector3.forward,  360f, _attacker.AttackRange);
         }
         
         private void SetAttackFOV()
@@ -27,12 +27,12 @@ namespace Editors
             var pos = _attacker.transform.position;
             var angle = _attacker.transform.eulerAngles;
             
-            Vector3 viewAngle01 = DirectionFromAngle(angle.y, -_attacker.attackAngle / 2);
-            Vector3 viewAngle02 = DirectionFromAngle(angle.y, _attacker.attackAngle / 2);
+            Vector3 viewAngle01 = DirectionFromAngle(angle.y, -_attacker.AttackAngle / 2);
+            Vector3 viewAngle02 = DirectionFromAngle(angle.y, _attacker.AttackAngle / 2);
             
-            Handles.DrawWireArc(pos, Vector3.up, viewAngle01 , _attacker.attackAngle, _attacker.attackRange);
-            Handles.DrawLine(pos, pos + viewAngle01 * _attacker.attackRange);
-            Handles.DrawLine(pos, pos + viewAngle02 * _attacker.attackRange);
+            Handles.DrawWireArc(pos, Vector3.up, viewAngle01 , _attacker.AttackAngle, _attacker.AttackRange);
+            Handles.DrawLine(pos, pos + viewAngle01 * _attacker.AttackRange);
+            Handles.DrawLine(pos, pos + viewAngle02 * _attacker.AttackRange);
         }
         private Vector3 DirectionFromAngle(float eulerY, float angleInDegrees)
         {

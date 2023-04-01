@@ -18,7 +18,7 @@ namespace Editors
         private void SetWanderField()
         {
             Handles.color = Color.green;
-            Handles.DrawWireArc(_mover.wanderCenterPosition, Vector3.up, Vector3.forward,  360f, _mover.wanderRange);
+            Handles.DrawWireArc(_mover.WanderCenterPosition, Vector3.up, Vector3.forward,  360f, _mover.WanderRange);
         }
     }
 }

@@ -18,17 +18,17 @@ namespace Editors
 
         private void SetPlayerDetection()
         {
-            if (_sensor.isPlayerDetected)
+            if (_sensor.IsPlayerDetected)
             {
                 Handles.color = Color.black;
-                Handles.DrawLine(_sensor.transform.position, _sensor.target.transform.position);
+                Handles.DrawLine(_sensor.transform.position, _sensor.Target.transform.position);
             }
         }
 
         private void SetSensoryFOV()
         {
             Handles.color = Color.magenta;
-            Handles.DrawWireArc(_sensor.transform.position, Vector3.up, Vector3.forward,  360f, _sensor.sensoryRange);
+            Handles.DrawWireArc(_sensor.transform.position, Vector3.up, Vector3.forward,  360f, _sensor.SensoryRange);
         }
 
         private void SetSightFOV()
@@ -37,12 +37,12 @@ namespace Editors
             var pos = _sensor.transform.position;
             var angle = _sensor.transform.eulerAngles;
             
-            Vector3 viewAngle01 = DirectionFromAngle(angle.y, -_sensor.sightAngle / 2);
-            Vector3 viewAngle02 = DirectionFromAngle(angle.y, _sensor.sightAngle / 2);
+            Vector3 viewAngle01 = DirectionFromAngle(angle.y, -_sensor.SightAngle / 2);
+            Vector3 viewAngle02 = DirectionFromAngle(angle.y, _sensor.SightAngle / 2);
             
-            Handles.DrawWireArc(pos, Vector3.up, viewAngle01 , _sensor.sightAngle, _sensor.sightRange);
-            Handles.DrawLine(pos, pos + viewAngle01 * _sensor.sightRange);
-            Handles.DrawLine(pos, pos + viewAngle02 * _sensor.sightRange);
+            Handles.DrawWireArc(pos, Vector3.up, viewAngle01 , _sensor.SightAngle, _sensor.SightRange);
+            Handles.DrawLine(pos, pos + viewAngle01 * _sensor.SightRange);
+            Handles.DrawLine(pos, pos + viewAngle02 * _sensor.SightRange);
         }
 
         private Vector3 DirectionFromAngle(float eulerY, float angleInDegrees)

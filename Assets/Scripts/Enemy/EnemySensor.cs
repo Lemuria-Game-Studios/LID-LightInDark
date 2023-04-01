@@ -5,15 +5,14 @@ namespace Enemy
 {
      public class EnemySensor : MonoBehaviour
      {
-          public float sightRange;
-          [Range(0,360)] public float sightAngle;
-          public float sensoryRange;
+          public float SightRange;
+          [Range(0,360)] public float SightAngle;
+          public float SensoryRange;
           [SerializeField] private LayerMask targetLayer;
           [SerializeField] private LayerMask obstructionLayer;
-     
-          public bool isPlayerDetected;
-
-          [HideInInspector] public Transform target;
+          
+          [HideInInspector] public bool IsPlayerDetected;
+          [HideInInspector] public Transform Target;
           
           private EnemyController _controller;
 
@@ -40,30 +39,30 @@ namespace Enemy
 
           private void CheckFOV()
           {
-               Collider[] rangeChecks = Physics.OverlapSphere(transform.position, Mathf.Max(sightRange, sensoryRange), targetLayer);
+               Collider[] rangeChecks = Physics.OverlapSphere(transform.position, Mathf.Max(SightRange, SensoryRange), targetLayer);
 
                if (rangeChecks.Length != 0)
                {
-                    target = rangeChecks[0].transform;
-                    Vector3 directionToTarget = (target.position - transform.position).normalized;
-                    float distanceToTarget = Vector3.Distance(transform.position, target.position);
+                    Target = rangeChecks[0].transform;
+                    Vector3 directionToTarget = (Target.position - transform.position).normalized;
+                    float distanceToTarget = Vector3.Distance(transform.position, Target.position);
                
                     //sensoryFOV
-                    if (distanceToTarget <= sensoryRange)
+                    if (distanceToTarget <= SensoryRange)
                     {
                          //none obstruction if it senses
-                         isPlayerDetected = !Physics.Raycast(transform.position, directionToTarget, distanceToTarget, 0);
+                         IsPlayerDetected = !Physics.Raycast(transform.position, directionToTarget, distanceToTarget, 0);
                     }
                     //sightFOV
-                    else if (Vector3.Angle(transform.forward, directionToTarget) < sightAngle / 2 && distanceToTarget <= sightRange)
+                    else if (Vector3.Angle(transform.forward, directionToTarget) < SightAngle / 2 && distanceToTarget <= SightRange)
                     {
                          //obstruction exists even it sees
-                         isPlayerDetected = !Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionLayer);
+                         IsPlayerDetected = !Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionLayer);
                     }
-                    else isPlayerDetected = false;
+                    else IsPlayerDetected = false;
                }
-               else if (isPlayerDetected)
-                    isPlayerDetected = false;
+               else if (IsPlayerDetected)
+                    IsPlayerDetected = false;
           }
      }
 }

@@ -6,15 +6,15 @@ namespace Enemy
 {
     public class EnemyMover : MonoBehaviour
     {
-        public Vector3 wanderCenterPosition;
-        public float wanderRange;
-        public bool isMovingToPlayer;
+        public Vector3 WanderCenterPosition;
+        public float WanderRange;
 
         private bool _isDestinationSet;
 
         private NavMeshAgent _nav;
 
-        public bool canMove = true;
+        [HideInInspector] public bool isMovingToPlayer;
+        [HideInInspector] public bool canMove = true;
         [HideInInspector] public Transform target;
 
         private void Awake()
@@ -41,7 +41,7 @@ namespace Enemy
             else if (!_isDestinationSet)
             {
                 _isDestinationSet = true;
-                var randomPos = Random.insideUnitSphere * wanderRange + wanderCenterPosition;
+                var randomPos = Random.insideUnitSphere * WanderRange + WanderCenterPosition;
                 _nav.destination = new Vector3(randomPos.x, transform.position.y, randomPos.z);
                 if (NavMesh.SamplePosition(_nav.destination, out NavMeshHit hit, 20, NavMesh.GetAreaFromName("Walkable")))
                 {
