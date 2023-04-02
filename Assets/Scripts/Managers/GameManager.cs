@@ -13,9 +13,18 @@ namespace Managers
             SubscribeEvents();
         }
 
+        private void OnDestroy()
+        {
+            UnSubscribeEvents();
+        }
+
         private void SubscribeEvents()
         {
-            CoreGameSignals.Instance.onChangeGameState += OnChangeGameState;
+            CoreGameSignals.Instance.OnChangeGameState += OnChangeGameState;
+        }
+        private void UnSubscribeEvents()
+        {
+            CoreGameSignals.Instance.OnChangeGameState -= OnChangeGameState;
         }
 
         private void OnChangeGameState(GameStates state)

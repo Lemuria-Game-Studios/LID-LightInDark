@@ -1,7 +1,5 @@
-using System;
 using UnityEngine;
 using Enums;
-using UnityEngine.Serialization;
 using Signals;
 
 namespace Managers
@@ -11,18 +9,7 @@ namespace Managers
         [SerializeField] private GameManager gameManager;
         public Vector3 input;
 
-        private void OnEnable()
-        {
-            SubscribeEvents();
-        }
-
-        private void SubscribeEvents()
-        {
-            
-        }
-
-
-        void Update()
+        private void Update()
         {
             PlayerInputs();
             GatherInput();
@@ -33,16 +20,16 @@ namespace Managers
             {
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    PlayerSignals.Instance.onAttacking?.Invoke();
+                    PlayerSignals.Instance.OnAttacking?.Invoke();
                 }
                 if (Input.GetKeyDown(KeyCode.Mouse1))
                 {
-                    PlayerSignals.Instance.onSpelling?.Invoke();
+                    PlayerSignals.Instance.OnSpelling?.Invoke();
                 }
 
                 if (Input.GetKeyDown((KeyCode.Space)))
                 {
-                    PlayerSignals.Instance.onDashing?.Invoke();
+                    PlayerSignals.Instance.OnDashing?.Invoke();
                 }
             }
             else

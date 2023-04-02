@@ -6,6 +6,8 @@ namespace Signals
 {
     public class CoreGameSignals : MonoSingleton<CoreGameSignals>
     {
-        public UnityAction<GameStates> onChangeGameState= delegate {  };
+        public UnityAction<GameStates> OnChangeGameState= delegate {  };
+        public UnityAction OnSavingGame = delegate {  };    
+        public UnityAction OnLoadingGame = delegate {  };
     }
 }

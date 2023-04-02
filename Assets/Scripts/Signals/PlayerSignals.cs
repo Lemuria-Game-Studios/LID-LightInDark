@@ -5,9 +5,9 @@ namespace Signals
 {
     public class PlayerSignals : MonoSingleton<PlayerSignals>
     {
-        public UnityAction onAttacking = delegate { };
-        public UnityAction onSpelling = delegate {  };
-        public UnityAction<float> onSettingSpeed = delegate {  };
-        public UnityAction onDashing =delegate {  };
+        public UnityAction OnAttacking = delegate { };
+        public UnityAction OnSpelling = delegate {  };
+        public UnityAction<float> OnSettingSpeed = delegate {  };
+        public UnityAction OnDashing =delegate {  };
     }
 }
