@@ -1,14 +1,15 @@
-using System;
+using Enums;
 using UnityEngine;
 using Signals;
-using Unity.VisualScripting;
-using UnityEngine.Serialization;
+using UnityEngine.UI;
+
 
 namespace Managers
 {
     public class UIManager : MonoBehaviour
     {
         [SerializeField] private GameObject canvas;
+        [SerializeField] private Image dashMeter;
         private void OnEnable()
         {
             SubscribeEvents();
@@ -16,27 +17,39 @@ namespace Managers
 
         private void SubscribeEvents()
         {
-            CoreGameSignals.Instance.OnAppearingInGameUI += OnAppearingInGameUI;
-            CoreGameSignals.Instance.OnAppearingMenuUI += OnAppearingMenuUI;
+            CoreGameSignals.Instance.OnUIManagement += OnUIManagement;
+            CoreGameSignals.Instance.DashMeter += DashMeter;
         }
-        private void OnDestroy()
+        private void OnDisable()
         {
             UnSubscribeEvents();
         }
         private void UnSubscribeEvents()
         {
-            CoreGameSignals.Instance.OnAppearingInGameUI -= OnAppearingInGameUI;
+            CoreGameSignals.Instance.OnUIManagement -= OnUIManagement;
+            CoreGameSignals.Instance.DashMeter -= DashMeter;
         }
 
-        private void OnAppearingInGameUI()
+        private void OnUIManagement(GameStates state)
         {
-            Destroy(canvas.transform.GetChild(0).gameObject);
-            Instantiate(Resources.Load<GameObject>("UI/InGameUI"), canvas.transform, false);
+            if (canvas.transform.childCount >= 2)
+            {
+                Destroy(canvas.transform.GetChild(1).gameObject);
+            }
+            switch (state)
+            {
+                case GameStates.Game:
+                    //Instantiate(Resources.Load<GameObject>("UI/InGameUI"), canvas.transform, false);
+                    break;
+                case GameStates.Pause:
+                    Instantiate(Resources.Load<GameObject>("UI/PauseMenu"), canvas.transform, false);
+                    break;
+            }
         }
-        private void OnAppearingMenuUI()
+        private void DashMeter(float amount)
         {
-            Destroy(canvas.transform.GetChild(0).gameObject);
-            Instantiate(Resources.Load<GameObject>("UI/PauseMenu"), canvas.transform, false);
+            Debug.Log(amount);
+            dashMeter.fillAmount = amount / 100;
         }
     }
 }

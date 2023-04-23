@@ -3,6 +3,7 @@ using UnityEngine;
 using Signals;
 using Enums;
 using Extensions;
+using System.Threading.Tasks;
 
 namespace Controllers
 {
@@ -15,6 +16,7 @@ namespace Controllers
         private Rigidbody _rigidbody;
         private bool _isDashing;
         private bool _isSpelling;
+        private float _dashMeter;
         
 
 
@@ -31,6 +33,7 @@ namespace Controllers
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
+            _dashMeter = 100;
         }
        
         private void Update() {
@@ -67,13 +70,22 @@ namespace Controllers
             speed = num;
         }
 
-        private void OnDashing()
+        private async void OnDashing()
         {
+            _isDashing = true;
+            AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Dash);
             _rigidbody.AddForce(transform.forward*dashSpeed,ForceMode.Impulse);
-            Debug.Log("Dash");
+            await Task.Delay(300);
+            _isDashing = false;
         }
 
-        private void OnDestroy()
+        
+        public bool GetIsDashing()
+        {
+            return _isDashing;
+        }
+
+        private void OnDisable()
         {
             UnSubscribeEvents();
         }
@@ -83,6 +95,7 @@ namespace Controllers
             PlayerSignals.Instance.OnDashing -= OnDashing;
         }
     }
+    
     /*public static class Helpers 
     {
         private static Matrix4x4 _isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0));
