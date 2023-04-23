@@ -50,6 +50,8 @@ namespace Controllers
                 case AnimationStates.RangeAttack:
                     _animator.SetTrigger("Spell");
                     break;
+                case AnimationStates.Dash:
+                    break;
             }
         }
 

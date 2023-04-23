@@ -6,6 +6,7 @@ namespace Enums
         Idle,
         Move,
         CloseAttack,
-        RangeAttack
+        RangeAttack,
+        Dash
     }
 }

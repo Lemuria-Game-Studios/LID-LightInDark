@@ -20,11 +20,13 @@ namespace Managers
         private void OnSavingGame()
         {
             ES3.Save("transform",player.transform);
+            ES3.Save("dashMeter",player.gameObject.GetComponent<PlayerManager>().GetDashMeter());
         }
         
         private void OnLoadingGame()
         {
             ES3.Load<Transform>("transform", player.transform);
+            player.gameObject.GetComponent<PlayerManager>().SetDashMeter(ES3.Load<float>("dashMeter"));
         }
 
         private void OnDestroy()

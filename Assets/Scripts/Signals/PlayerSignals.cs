@@ -9,5 +9,6 @@ namespace Signals
         public UnityAction OnSpelling = delegate {  };
         public UnityAction<float> OnSettingSpeed = delegate {  };
         public UnityAction OnDashing =delegate {  };
+        public UnityAction CanDash =delegate {  };
     }
 }

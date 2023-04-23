@@ -8,7 +8,7 @@ namespace GameObjects
     {
         private void OnTriggerEnter(Collider other)
         {
-            CoreGameSignals.Instance.OnAppearingInGameUI?.Invoke();
+            
             Debug.Log("Button");
         }
     }

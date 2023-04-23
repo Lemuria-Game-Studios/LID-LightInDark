@@ -1,12 +1,13 @@
 using UnityEngine;
 using Enums;
 using Signals;
-
+using Controllers;
 namespace Managers
 {
     public class InputManager : MonoBehaviour
     {
         [SerializeField] private GameManager gameManager;
+        [SerializeField] private PlayerMovementController playerMovementController;
         public Vector3 input;
 
         private void Update()
@@ -27,9 +28,9 @@ namespace Managers
                     PlayerSignals.Instance.OnSpelling?.Invoke();
                 }
 
-                if (Input.GetKeyDown((KeyCode.Space)))
+                if (Input.GetKeyDown((KeyCode.Space)) )
                 {
-                    PlayerSignals.Instance.OnDashing?.Invoke();
+                    PlayerSignals.Instance.CanDash?.Invoke();
                 }
             }
             else
@@ -38,7 +39,7 @@ namespace Managers
             }
         }
         private void GatherInput() {
-            if (gameManager.GetGameState() == GameStates.Game)
+            if (gameManager.GetGameState() == GameStates.Game && !playerMovementController.GetIsDashing() )
             {
                 input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
             }
