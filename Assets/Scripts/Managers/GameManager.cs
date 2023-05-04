@@ -22,12 +22,14 @@ namespace Managers
             CoreGameSignals.Instance.OnChangeGameState += OnChangeGameState;
             CoreGameSignals.Instance.OnPausingGame += OnPausingGame;
             CoreGameSignals.Instance.OnResumingGame += OnResumingGame;
+            CoreGameSignals.Instance.OnGettingGameState += OnGettingGameState;
         }
         private void UnSubscribeEvents()
         {
             CoreGameSignals.Instance.OnChangeGameState -= OnChangeGameState;
             CoreGameSignals.Instance.OnPausingGame -= OnPausingGame;
             CoreGameSignals.Instance.OnResumingGame -= OnResumingGame;
+            CoreGameSignals.Instance.OnGettingGameState -= OnGettingGameState;
         }
 
         private void OnChangeGameState(GameStates state)
@@ -35,7 +37,7 @@ namespace Managers
             states = state;
         }
 
-        public GameStates GetGameState()
+        public GameStates OnGettingGameState()
         {
             return states;
         }

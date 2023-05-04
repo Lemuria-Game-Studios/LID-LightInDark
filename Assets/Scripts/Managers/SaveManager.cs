@@ -19,14 +19,14 @@ namespace Managers
 
         private void OnSavingGame()
         {
-            ES3.Save("transform",player.transform);
-            ES3.Save("dashMeter",player.gameObject.GetComponent<PlayerManager>().GetDashMeter());
+            ES3.Save("transform",PlayerSignals.Instance.OnGettingTransform.Invoke());
+            ES3.Save("dashMeter",PlayerSignals.Instance.OnGettingDashMeter.Invoke());
         }
         
         private void OnLoadingGame()
         {
-            ES3.Load<Transform>("transform", player.transform);
-            player.gameObject.GetComponent<PlayerManager>().SetDashMeter(ES3.Load<float>("dashMeter"));
+            ES3.Load<Transform>("transform", PlayerSignals.Instance.OnGettingTransform.Invoke());
+            PlayerSignals.Instance.OnSettingDashMeter(ES3.Load<float>("dashMeter"));
         }
 
         private void OnDestroy()

@@ -14,5 +14,6 @@ namespace Signals
         public UnityAction OnPausingGame = delegate {  };
         public UnityAction OnResumingGame = delegate {  };
         public UnityAction<float> DashMeter = delegate {  };
+        public Func<GameStates> OnGettingGameState = () => GameStates.Game;
     }
 }

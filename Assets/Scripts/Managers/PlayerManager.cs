@@ -1,4 +1,3 @@
-using System;
 using Enums;
 using UnityEngine;
 using Signals;
@@ -17,27 +16,17 @@ namespace Managers
 
         private void SubscribeEvents()
         {
-            PlayerSignals.Instance.OnAttacking += OnAttacking;
-            PlayerSignals.Instance.OnSpelling += OnSpelling;
-            PlayerSignals.Instance.CanDash += CanDash;
+            InputSignals.Instance.CanDash += CanDash;
+            PlayerSignals.Instance.OnGettingDashMeter += OnGettingDashMeter;
+            PlayerSignals.Instance.OnSettingDashMeter += SetDashMeter;
+            PlayerSignals.Instance.OnGettingTransform += OnGettingTransform;
         }
 
         private void Update()
         {
             DashMeter();
         }
-
-        private void OnAttacking()
-        {
-            AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.CloseAttack);
-            //PlayerSignals.Instance.onSettingSpeed?.Invoke(1);
-        }
-
-        private void OnSpelling()
-        {
-            AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.RangeAttack);
-        }
-
+        
         private void CanDash()
         {
             if (_dashMeter >= 30)
@@ -56,13 +45,19 @@ namespace Managers
             }
         }
 
-        public float GetDashMeter()
+        private float OnGettingDashMeter()
         {
             return _dashMeter;
         }
-        public float SetDashMeter(float amount)
+
+        private void SetDashMeter(float amount)
         {
-            return _dashMeter=amount;
+            _dashMeter=amount;
+        }
+
+        private Transform OnGettingTransform()
+        {
+            return this.transform;
         }
 
         public AnimationStates GetAnimationStates()
@@ -76,9 +71,8 @@ namespace Managers
         }
         private void UnSubscribeEvents()
         {
-            PlayerSignals.Instance.OnAttacking -= OnAttacking;
-            PlayerSignals.Instance.OnSpelling -= OnSpelling;
-            PlayerSignals.Instance.CanDash -= CanDash;
+            InputSignals.Instance.CanDash -= CanDash;
+            PlayerSignals.Instance.OnGettingTransform -= OnGettingTransform;
         }
     }
 }

@@ -1,22 +1,21 @@
-using Managers;
 using UnityEngine;
 using Signals;
 using Enums;
-using Extensions;
 using System.Threading.Tasks;
 
 namespace Controllers
 {
     public class PlayerMovementController : MonoBehaviour {
-        [SerializeField] private Rigidbody rb;
         [SerializeField] private float speed = 5;
-        [SerializeField] private float turnSpeed = 360;
         [SerializeField] private float dashSpeed = 10;
-        [SerializeField] private InputManager ınputManager;
         private Rigidbody _rigidbody;
+        [SerializeField] private Camera mainCamera;
+        private Vector3 _mousePosition;
         private bool _isDashing;
         private bool _isSpelling;
-        private float _dashMeter;
+        private float _turnSmoothVelocity;
+        private Vector3 _moveDirection;
+        private Vector3 _movementDirection = Vector3.zero;
         
 
 
@@ -27,30 +26,89 @@ namespace Controllers
 
         private void SubscribeEvents()
         {
-            PlayerSignals.Instance.OnSettingSpeed += OnSettingSpeed;
+            //PlayerSignals.Instance.OnSettingSpeed += OnSettingSpeed;
             PlayerSignals.Instance.OnDashing += OnDashing;
+            InputSignals.Instance.OnGetIsDashing += OnGetIsDashing;
         }
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
-            _dashMeter = 100;
-        }
-       
-        private void Update() {
-            Look();
         }
         private void FixedUpdate() {
-            Move();
+            //Move();
+            //Movement();
+            MovementAndRotation();
         }
-      
-        private void Look() {
-            if (ınputManager.input == Vector3.zero) return;
 
-            var rot = Quaternion.LookRotation(ınputManager.input.ToIso(), Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, turnSpeed * Time.deltaTime);
+        private void MovementAndRotation()
+        {
+            float horizontalMovement = Input.GetAxisRaw("Horizontal"); 
+        float verticalMovement = Input.GetAxisRaw("Vertical"); 
+        
+        switch (horizontalMovement)
+        {
+            case > 0 when verticalMovement > 0:
+                _movementDirection = new Vector3(1, 0, 1).normalized;
+                break;
+            case > 0 when verticalMovement < 0:
+                _movementDirection = new Vector3(1, 0, -1).normalized;
+                break;
+            case > 0:
+                _movementDirection = new Vector3(1, 0, 0).normalized;
+                break;
+            case < 0 when verticalMovement > 0:
+                _movementDirection = new Vector3(-1, 0, 1).normalized;
+                break;
+            case < 0 when verticalMovement < 0:
+                _movementDirection = new Vector3(-1, 0, -1).normalized;
+                break;
+            case < 0:
+                _movementDirection = new Vector3(-1, 0, 0).normalized;
+                break;
+            default:
+            {
+                if (verticalMovement > 0)
+                {
+                    _movementDirection = new Vector3(0, 0, 1).normalized;
+                }
+                else if (verticalMovement < 0)
+                {
+                    _movementDirection = new Vector3(0, 0, -1).normalized;
+                }
+                else
+                {
+                    _movementDirection = Vector3.zero;
+                }
+
+                break;
+            }
+        }
+
+        if (_movementDirection != Vector3.zero)
+        {
+            AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Move);
+            transform.rotation = Quaternion.LookRotation(_movementDirection);
+        }
+        else if (_movementDirection == Vector3.zero)
+        {
+            AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Idle);
         }
         
-        private void Move()
+        Vector3 velocity = _movementDirection * speed;
+        transform.position += velocity * Time.deltaTime;
+
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+        float rayDistance;
+
+        if (groundPlane.Raycast(ray, out rayDistance))
+        {
+            Vector3 lookAtPos = ray.GetPoint(rayDistance);
+            transform.LookAt(new Vector3(lookAtPos.x, transform.position.y, lookAtPos.z));
+        }
+        }
+
+        /*private void Move()
         {
             var transform1 = transform;
                 rb.MovePosition(transform1.position + transform1.forward * (ınputManager.input.normalized.magnitude * speed * Time.deltaTime));
@@ -63,7 +121,7 @@ namespace Controllers
             {
                 AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Idle);
             }
-        }
+        }*/
 
         private void OnSettingSpeed(float num)
         {
@@ -74,13 +132,12 @@ namespace Controllers
         {
             _isDashing = true;
             AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Dash);
-            _rigidbody.AddForce(transform.forward*dashSpeed,ForceMode.Impulse);
+            _rigidbody.AddForce(_movementDirection*dashSpeed,ForceMode.Impulse);
             await Task.Delay(300);
             _isDashing = false;
         }
-
         
-        public bool GetIsDashing()
+        private bool OnGetIsDashing()
         {
             return _isDashing;
         }
@@ -91,14 +148,11 @@ namespace Controllers
         }
         private void UnSubscribeEvents()
         {
-            PlayerSignals.Instance.OnSettingSpeed -= OnSettingSpeed;
+            //PlayerSignals.Instance.OnSettingSpeed -= OnSettingSpeed;
             PlayerSignals.Instance.OnDashing -= OnDashing;
+            InputSignals.Instance.OnGetIsDashing -= OnGetIsDashing;
         }
     }
+
     
-    /*public static class Helpers 
-    {
-        private static Matrix4x4 _isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0));
-        public static Vector3 ToIso(this Vector3 input) => _isoMatrix.MultiplyPoint3x4(input);
-    }*/
 }
