@@ -34,6 +34,7 @@ MonoBehaviour:
     - MoreMountains.Tools
     - MoreMountains.Feedbacks.URP
     - Assembly-CSharp
+    - Cinemachine
     - MoreMountains.Feedbacks.MMTools
     - MoreMountains.Feedbacks.NiceVibrations
     - MoreMountains.Feedbacks.PostProcessing

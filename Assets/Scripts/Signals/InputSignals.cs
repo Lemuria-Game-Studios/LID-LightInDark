@@ -1,12 +1,14 @@
 using Extensions;
-using UnityEngine;
 using UnityEngine.Events;
-using Vector3 = System.Numerics.Vector3;
+using System;
 
 namespace Signals
 {
     public class InputSignals : MonoSingleton<InputSignals>
     {
-        
+        public UnityAction OnSwordAttack= delegate {  };
+        public UnityAction OnArchering = delegate {  };
+        public UnityAction CanDash =delegate {  };
+        public Func<bool> OnGetIsDashing = () => false;
     }
 }

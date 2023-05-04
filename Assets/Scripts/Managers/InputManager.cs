@@ -1,36 +1,45 @@
 using UnityEngine;
 using Enums;
 using Signals;
-using Controllers;
+
 namespace Managers
 {
     public class InputManager : MonoBehaviour
     {
-        [SerializeField] private GameManager gameManager;
-        [SerializeField] private PlayerMovementController playerMovementController;
+        
         public Vector3 input;
+
+        /*private void OnEnable()
+        {
+            //SubscribeEvents();
+        }
+
+        private void SubscribeEvents()
+        {
+            
+        }*/
 
         private void Update()
         {
             PlayerInputs();
-            GatherInput();
+            //GatherInput();
         }
         private void PlayerInputs()
         {
-            if (gameManager.GetGameState() == GameStates.Game)
+            if (CoreGameSignals.Instance.OnGettingGameState.Invoke() == GameStates.Game)
             {
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    PlayerSignals.Instance.OnAttacking?.Invoke();
+                    InputSignals.Instance.OnSwordAttack?.Invoke();
                 }
                 if (Input.GetKeyDown(KeyCode.Mouse1))
                 {
-                    PlayerSignals.Instance.OnSpelling?.Invoke();
+                    InputSignals.Instance.OnArchering?.Invoke();
                 }
 
                 if (Input.GetKeyDown((KeyCode.Space)) )
                 {
-                    PlayerSignals.Instance.CanDash?.Invoke();
+                    InputSignals.Instance.CanDash?.Invoke();
                 }
             }
             else
@@ -38,12 +47,12 @@ namespace Managers
                 
             }
         }
-        private void GatherInput() {
-            if (gameManager.GetGameState() == GameStates.Game && !playerMovementController.GetIsDashing() )
+        /*private void GatherInput() {
+            if (CoreGameSignals.Instance.OnGettingGameState.Invoke() == GameStates.Game && !InputSignals.Instance.OnGetIsDashing.Invoke() )
             {
                 input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
             }
             
-        }
+        }*/
     }
 }
