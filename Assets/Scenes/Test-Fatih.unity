@@ -1338,6 +1338,7 @@ GameObject:
   - component: {fileID: 641507175}
   - component: {fileID: 641507174}
   - component: {fileID: 641507173}
+  - component: {fileID: 641507177}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -1424,6 +1425,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &641507177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641507172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 500dcdf992aba224f9bdaf4fac9a041b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  WeakPointEnabled: 0
+  weakPointDamageAmplification: 0
+  WeakPointAngle: 0
+  WeakPointPosition: 0
+  getHitFb: {fileID: 0}
+  dieFb: {fileID: 0}
 --- !u!1 &662147668
 GameObject:
   m_ObjectHideFlags: 0
@@ -2414,6 +2434,7 @@ GameObject:
   - component: {fileID: 1407938873}
   - component: {fileID: 1407938874}
   - component: {fileID: 1407938877}
+  - component: {fileID: 1407938878}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -2481,17 +2502,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b65b64fd17c2d54b928fb660d601344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sightRange: 20
-  sightAngle: 120
-  sensoryRange: 7
+  SightRange: 20
+  SightAngle: 120
+  SensoryRange: 5
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
   obstructionLayer:
     serializedVersion: 2
     m_Bits: 256
-  isPlayerDetected: 0
-  target: {fileID: 0}
+  IsPlayerDetected: 0
+  Target: {fileID: 0}
 --- !u!114 &1407938874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2504,10 +2525,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64d1e7535b94a574d9df0d94fefedd37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wanderCenterPosition: {x: -24, y: 0, z: -5}
-  wanderRange: 15
-  isMovingToPlayer: 0
-  canMove: 1
+  WanderCenterPosition: {x: -12.93, y: 0, z: -6.88}
+  WanderRange: 5
+  IsMovingToPlayer: 0
+  CanMove: 1
   target: {fileID: 0}
 --- !u!114 &1407938875
 MonoBehaviour:
@@ -2521,7 +2542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52922730aa853846905d85dd51f0dab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  Target: {fileID: 0}
 --- !u!195 &1407938876
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2605,6 +2626,29 @@ MonoBehaviour:
   FloatValueMin: 0
   FloatValueMax: 5
   FloatIncrement: 1
+--- !u!114 &1407938878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407938864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e974c45916838fc41834216279525318, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AttackRange: 2.8
+  AttackAngle: 80
+  rotateSpeedInRange: 4.78
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  attackCooldown: 0.5
+  attackFeedbackList: []
+  IsInRange: 0
+  IsAttacking: 0
+  Target: {fileID: 0}
 --- !u!1 &1506602103
 GameObject:
   m_ObjectHideFlags: 0

@@ -44,20 +44,20 @@ namespace Enemy
             switch (_state)
             {
                 case EnemyStates.Wandering:
-                    _mover.isMovingToPlayer = false;
-                    _mover.canMove = true;
+                    _mover.IsMovingToPlayer = false;
+                    _mover.CanMove = true;
                     break;
                 case EnemyStates.MovingToPlayer:
-                    _mover.isMovingToPlayer = true;
-                    _mover.canMove = true;
+                    _mover.IsMovingToPlayer = true;
+                    _mover.CanMove = true;
                     break;
                 case EnemyStates.Aiming:
                     _nav.velocity = Vector3.zero;
-                    _mover.canMove = true;
+                    _mover.CanMove = true;
                     break;
                 case EnemyStates.Attacking:
                     _nav.velocity = Vector3.zero;
-                    _mover.canMove = false;
+                    _mover.CanMove = false;
                     break;
             }
         }
