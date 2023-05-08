@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Enums;
 using UnityEngine;
 using Signals;
@@ -8,6 +9,7 @@ namespace Managers
     {
         private AnimationStates _states;
         private float _dashMeter;
+        [SerializeField] private bool _canDash=false;
         private void OnEnable()
         {
             SubscribeEvents();
@@ -20,6 +22,8 @@ namespace Managers
             PlayerSignals.Instance.OnGettingDashMeter += OnGettingDashMeter;
             PlayerSignals.Instance.OnSettingDashMeter += SetDashMeter;
             PlayerSignals.Instance.OnGettingTransform += OnGettingTransform;
+            InputSignals.Instance.OnGettingAnimationState += OnGetttingAnimationStates;
+            InputSignals.Instance.OnGetCanDash += OnGetCanDash;
         }
 
         private void Update()
@@ -29,12 +33,25 @@ namespace Managers
         
         private void CanDash()
         {
-            if (_dashMeter >= 30)
+            if (_dashMeter >= 30 && !_canDash)
             {
+                _canDash = true;
                 _dashMeter -= 30;
                 PlayerSignals.Instance.OnDashing?.Invoke();
+                CanDashAsync();
             }
         }
+
+        private async Task CanDashAsync()
+        {
+            await Task.Delay(300);
+            _canDash = false;
+        }
+        private bool OnGetCanDash()
+        {
+            return _canDash;
+        }
+
 
         private void DashMeter()
         {
@@ -60,7 +77,7 @@ namespace Managers
             return this.transform;
         }
 
-        public AnimationStates GetAnimationStates()
+        public AnimationStates OnGetttingAnimationStates()
         {
             return _states;
         }

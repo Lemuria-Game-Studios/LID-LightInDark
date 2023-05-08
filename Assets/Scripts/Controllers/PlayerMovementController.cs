@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Signals;
 using Enums;
@@ -16,7 +17,10 @@ namespace Controllers
         private float _turnSmoothVelocity;
         private Vector3 _moveDirection;
         private Vector3 _movementDirection = Vector3.zero;
-        
+        private const int _rotationAngle = 45;
+        private Vector3 _lastDirection;
+        private float _horizontalMovement;
+        private float _verticalMovement;
 
 
         private void OnEnable()
@@ -28,66 +32,36 @@ namespace Controllers
         {
             //PlayerSignals.Instance.OnSettingSpeed += OnSettingSpeed;
             PlayerSignals.Instance.OnDashing += OnDashing;
-            InputSignals.Instance.OnGetIsDashing += OnGetIsDashing;
+            //InputSignals.Instance.OnMovementAndRotation += OnMovementAndRotation;
         }
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
         }
-        private void FixedUpdate() {
-            //Move();
-            //Movement();
-            MovementAndRotation();
+
+        private void FixedUpdate()
+        {
+            OnMovementAndRotation();
         }
 
-        private void MovementAndRotation()
+        private void OnMovementAndRotation()
         {
-            float horizontalMovement = Input.GetAxisRaw("Horizontal"); 
-        float verticalMovement = Input.GetAxisRaw("Vertical"); 
-        
-        switch (horizontalMovement)
-        {
-            case > 0 when verticalMovement > 0:
-                _movementDirection = new Vector3(1, 0, 1).normalized;
-                break;
-            case > 0 when verticalMovement < 0:
-                _movementDirection = new Vector3(1, 0, -1).normalized;
-                break;
-            case > 0:
-                _movementDirection = new Vector3(1, 0, 0).normalized;
-                break;
-            case < 0 when verticalMovement > 0:
-                _movementDirection = new Vector3(-1, 0, 1).normalized;
-                break;
-            case < 0 when verticalMovement < 0:
-                _movementDirection = new Vector3(-1, 0, -1).normalized;
-                break;
-            case < 0:
-                _movementDirection = new Vector3(-1, 0, 0).normalized;
-                break;
-            default:
+            if (!InputSignals.Instance.OnGetCanDash.Invoke())
             {
-                if (verticalMovement > 0)
-                {
-                    _movementDirection = new Vector3(0, 0, 1).normalized;
-                }
-                else if (verticalMovement < 0)
-                {
-                    _movementDirection = new Vector3(0, 0, -1).normalized;
-                }
-                else
-                {
-                    _movementDirection = Vector3.zero;
-                }
-
-                break;
+                _horizontalMovement = Input.GetAxisRaw("Horizontal"); 
+                _verticalMovement = Input.GetAxisRaw("Vertical"); 
             }
-        }
+            
+            _movementDirection = new Vector3(_horizontalMovement, 0f, _verticalMovement).normalized;
+            Quaternion rotation = Quaternion.Euler(0f, _rotationAngle, 0f);
+        _movementDirection = rotation * _movementDirection;
+        
 
         if (_movementDirection != Vector3.zero)
         {
             AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Move);
             transform.rotation = Quaternion.LookRotation(_movementDirection);
+            _lastDirection = _movementDirection;
         }
         else if (_movementDirection == Vector3.zero)
         {
@@ -95,7 +69,10 @@ namespace Controllers
         }
         
         Vector3 velocity = _movementDirection * speed;
+        
         transform.position += velocity * Time.deltaTime;
+        
+        
 
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
@@ -128,20 +105,13 @@ namespace Controllers
             speed = num;
         }
 
-        private async void OnDashing()
+        private void OnDashing()
         {
-            _isDashing = true;
             AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Dash);
             _rigidbody.AddForce(_movementDirection*dashSpeed,ForceMode.Impulse);
-            await Task.Delay(300);
-            _isDashing = false;
         }
         
-        private bool OnGetIsDashing()
-        {
-            return _isDashing;
-        }
-
+       
         private void OnDisable()
         {
             UnSubscribeEvents();
@@ -150,7 +120,6 @@ namespace Controllers
         {
             //PlayerSignals.Instance.OnSettingSpeed -= OnSettingSpeed;
             PlayerSignals.Instance.OnDashing -= OnDashing;
-            InputSignals.Instance.OnGetIsDashing -= OnGetIsDashing;
         }
     }
 

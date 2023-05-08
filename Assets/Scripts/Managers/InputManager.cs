@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Enums;
 using Signals;
@@ -6,8 +7,8 @@ namespace Managers
 {
     public class InputManager : MonoBehaviour
     {
-        
-        public Vector3 input;
+        private float horizontalMovement;
+        private float verticalMovement;
 
         /*private void OnEnable()
         {
@@ -24,6 +25,12 @@ namespace Managers
             PlayerInputs();
             //GatherInput();
         }
+
+        private void FixedUpdate()
+        {
+            //GatherInput();
+        }
+
         private void PlayerInputs()
         {
             if (CoreGameSignals.Instance.OnGettingGameState.Invoke() == GameStates.Game)
@@ -37,9 +44,10 @@ namespace Managers
                     InputSignals.Instance.OnArchering?.Invoke();
                 }
 
-                if (Input.GetKeyDown((KeyCode.Space)) )
+                if (Input.GetKeyDown((KeyCode.Space))&& !InputSignals.Instance.OnGetCanDash.Invoke())
                 {
                     InputSignals.Instance.CanDash?.Invoke();
+                    
                 }
             }
             else
@@ -48,9 +56,12 @@ namespace Managers
             }
         }
         /*private void GatherInput() {
-            if (CoreGameSignals.Instance.OnGettingGameState.Invoke() == GameStates.Game && !InputSignals.Instance.OnGetIsDashing.Invoke() )
+            if (CoreGameSignals.Instance.OnGettingGameState.Invoke() == GameStates.Game)
             {
-                input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+                horizontalMovement = Input.GetAxisRaw("Horizontal"); 
+                verticalMovement = Input.GetAxisRaw("Vertical");
+
+                InputSignals.Instance.OnMovementAndRotation.Invoke(horizontalMovement, verticalMovement);
             }
             
         }*/

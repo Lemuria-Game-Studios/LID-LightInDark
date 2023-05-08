@@ -37,7 +37,7 @@ namespace Managers
             states = state;
         }
 
-        public GameStates OnGettingGameState()
+        private GameStates OnGettingGameState()
         {
             return states;
         }
