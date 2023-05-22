@@ -16,7 +16,8 @@ namespace Enemy
             
             if (rangeChecks.Length > 0)
             {
-                rangeChecks[0].GetComponent<Health>().ChangeHealth(-damageAmount, transform.position);
+                Debug.Log("Hit by Enemy");
+                //rangeChecks[0].GetComponent<Health>().ChangeHealth(-damageAmount, transform.position);
             }
             
             Destroy(gameObject);

@@ -1,5 +1,6 @@
 using MoreMountains.Feedbacks;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Common
 {
@@ -8,6 +9,7 @@ namespace Common
         [SerializeField] private float maxHealth;
         
         public bool WeakPointEnabled;
+        [SerializeField] private float currentHealth;
         [SerializeField] private float weakPointDamageAmplification;
         [Range(0, 360)] public float WeakPointAngle;
         [Range(0, 360)] public float WeakPointPosition;
@@ -15,18 +17,18 @@ namespace Common
         [SerializeField] private MMFeedbacks getHitFb;
         [SerializeField] private MMFeedbacks dieFb;
         
-        private float _currentHealth;
+        
 
         private void Awake()
         {
-            _currentHealth = maxHealth;
+            currentHealth = maxHealth;
         }
 
         public void ChangeHealth(float amount, Vector3 getHitPosition = default)
         {
             if (amount < 0) getHitFb.PlayFeedbacks();
-            if (WeakPointEnabled && CheckIfWeakPoint(getHitPosition))_currentHealth += amount * weakPointDamageAmplification;
-            else _currentHealth += amount;
+            if (WeakPointEnabled && CheckIfWeakPoint(getHitPosition))currentHealth -= amount * weakPointDamageAmplification;
+            else currentHealth -= amount;
             CheckIfMaxHealthReached();
             CheckIfDead();
         }
@@ -40,17 +42,17 @@ namespace Common
 
         private void CheckIfMaxHealthReached()
         {
-            if (_currentHealth > maxHealth) _currentHealth = maxHealth;
+            if (currentHealth > maxHealth) currentHealth = maxHealth;
         }
         
         private void CheckIfDead()
         {
-            if (_currentHealth <= 0) Die();
+            if (currentHealth <= 0) Die();
         }
 
         private void Die()
         {
-            dieFb.PlayFeedbacks();
+            //dieFb.PlayFeedbacks();
             Debug.Log("dead");
         }
     }

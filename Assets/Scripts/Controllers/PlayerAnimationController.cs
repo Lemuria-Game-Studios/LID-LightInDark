@@ -8,6 +8,9 @@ namespace Controllers
     {
         //[SerializeField] private AnimationStates states;
         private Animator _animator;
+        private static readonly int Attack = Animator.StringToHash("Attack");
+        private static readonly int Blend = Animator.StringToHash("Blend");
+        private static readonly int Spell = Animator.StringToHash("Spell");
 
         private void Awake()
         {
@@ -39,16 +42,17 @@ namespace Controllers
             switch (state)
             {
                 case AnimationStates.Idle:
-                    _animator.SetFloat("Blend",0f);
+                    
+                    _animator.SetFloat(Blend,0f);
                     break;
                 case AnimationStates.Move:
-                    _animator.SetFloat("Blend",1f);
+                    _animator.SetFloat(Blend,1f);
                     break;
                 case AnimationStates.CloseAttack:
-                    _animator.SetTrigger("Attack");
+                    _animator.SetTrigger(Attack);
                     break;
                 case AnimationStates.RangeAttack:
-                    _animator.SetTrigger("Spell");
+                    _animator.SetTrigger(Spell);
                     break;
                 case AnimationStates.Dash:
                     break;

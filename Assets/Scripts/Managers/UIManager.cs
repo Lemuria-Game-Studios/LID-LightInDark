@@ -44,11 +44,13 @@ namespace Managers
                 case GameStates.Pause:
                     Instantiate(Resources.Load<GameObject>("UI/PauseMenu"), canvas.transform, false);
                     break;
+                case GameStates.SkillTree:
+                    Instantiate(Resources.Load<GameObject>("UI/SkillTreeUI"), canvas.transform, false);
+                    break;
             }
         }
         private void DashMeter(float amount)
         {
-            Debug.Log(amount);
             dashMeter.fillAmount = amount / 100;
         }
     }

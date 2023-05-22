@@ -1,13 +1,10 @@
-using System;
 using UnityEngine;
 using Signals;
 using Enums;
-using System.Threading.Tasks;
 
 namespace Controllers
 {
     public class PlayerMovementController : MonoBehaviour {
-        [SerializeField] private float speed = 5;
         [SerializeField] private float dashSpeed = 10;
         private Rigidbody _rigidbody;
         [SerializeField] private Camera mainCamera;
@@ -18,7 +15,7 @@ namespace Controllers
         private Vector3 _moveDirection;
         private Vector3 _movementDirection = Vector3.zero;
         private const int _rotationAngle = 45;
-        private Vector3 _lastDirection;
+        //private Vector3 _lastDirection;
         private float _horizontalMovement;
         private float _verticalMovement;
 
@@ -39,14 +36,14 @@ namespace Controllers
             _rigidbody = GetComponent<Rigidbody>();
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             OnMovementAndRotation();
         }
 
         private void OnMovementAndRotation()
         {
-            if (!InputSignals.Instance.OnGetCanDash.Invoke())
+            if (!InputSignals.Instance.OnGetCanDash.Invoke()&& CoreGameSignals.Instance.OnGettingGameState()==GameStates.Game)
             {
                 _horizontalMovement = Input.GetAxisRaw("Horizontal"); 
                 _verticalMovement = Input.GetAxisRaw("Vertical"); 
@@ -61,14 +58,14 @@ namespace Controllers
         {
             AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Move);
             transform.rotation = Quaternion.LookRotation(_movementDirection);
-            _lastDirection = _movementDirection;
+            //_lastDirection = _movementDirection;
         }
         else if (_movementDirection == Vector3.zero)
         {
             AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Idle);
         }
         
-        Vector3 velocity = _movementDirection * speed;
+        Vector3 velocity = _movementDirection * PlayerSignals.Instance.OnGettingSpeed.Invoke();
         
         transform.position += velocity * Time.deltaTime;
         
@@ -78,7 +75,7 @@ namespace Controllers
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
         float rayDistance;
 
-        if (groundPlane.Raycast(ray, out rayDistance))
+        if (groundPlane.Raycast(ray, out rayDistance) && CoreGameSignals.Instance.OnGettingGameState()==GameStates.Game)
         {
             Vector3 lookAtPos = ray.GetPoint(rayDistance);
             transform.LookAt(new Vector3(lookAtPos.x, transform.position.y, lookAtPos.z));
@@ -99,11 +96,6 @@ namespace Controllers
                 AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Idle);
             }
         }*/
-
-        private void OnSettingSpeed(float num)
-        {
-            speed = num;
-        }
 
         private void OnDashing()
         {

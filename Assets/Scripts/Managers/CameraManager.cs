@@ -11,6 +11,24 @@ namespace Managers
 
         private Vector3 _velocity = Vector3.zero;
 
+        private void OnEnable()
+        {
+            SubscribeEvents();
+        }
+
+        private void SubscribeEvents()
+        {
+            CameraSignals.Instance.OnGettingCameraTransform += OnGettingCameraTransform;
+        }
+        private Transform OnGettingCameraTransform()
+        {
+            return transform;
+        }
+        private void OnDisable()
+        {
+            CameraSignals.Instance.OnGettingCameraTransform -= OnGettingCameraTransform;
+        }
+
         private void LateUpdate()
         {
             FollowPlayer();
@@ -22,6 +40,8 @@ namespace Managers
             
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, smoothTime);
         }
+
+        
 
     }
 }

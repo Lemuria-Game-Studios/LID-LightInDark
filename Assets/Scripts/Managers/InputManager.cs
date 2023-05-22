@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Enums;
 using Signals;
@@ -7,8 +6,8 @@ namespace Managers
 {
     public class InputManager : MonoBehaviour
     {
-        private float horizontalMovement;
-        private float verticalMovement;
+        private float _horizontalMovement;
+        private float _verticalMovement;
 
         /*private void OnEnable()
         {
@@ -23,12 +22,6 @@ namespace Managers
         private void Update()
         {
             PlayerInputs();
-            //GatherInput();
-        }
-
-        private void FixedUpdate()
-        {
-            //GatherInput();
         }
 
         private void PlayerInputs()
@@ -48,6 +41,11 @@ namespace Managers
                 {
                     InputSignals.Instance.CanDash?.Invoke();
                     
+                }
+
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    CoreGameSignals.Instance.OnResettingSkillTree.Invoke();
                 }
             }
             else

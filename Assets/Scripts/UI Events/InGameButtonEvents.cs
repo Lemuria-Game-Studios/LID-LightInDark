@@ -8,8 +8,6 @@ namespace UI_Events
 {
     public class InGameButtonEvents : MonoBehaviour
     {
-        
-
         public void SaveButton()
         {
             CoreGameSignals.Instance.OnSavingGame?.Invoke();
@@ -30,6 +28,13 @@ namespace UI_Events
             CoreGameSignals.Instance.OnUIManagement?.Invoke(GameStates.Game);
             CoreGameSignals.Instance.OnResumingGame?.Invoke();
         }
+
+        public void SkillTree()
+        {
+            CoreGameSignals.Instance.OnPausingGame?.Invoke();
+            CoreGameSignals.Instance.OnUIManagement?.Invoke(GameStates.SkillTree);
+        }
+        
 
         
 

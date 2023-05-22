@@ -12,14 +12,14 @@ namespace Enemy
 
         private bool _isDestinationSet;
 
-        private NavMeshAgent _nav;
+        [SerializeField]private NavMeshAgent _nav;
 
         public bool CanMove = true;
         [HideInInspector] public Transform target;
 
         private void Awake()
         {
-            _nav = GetComponent<NavMeshAgent>();
+            
         }
 
         private void FixedUpdate()

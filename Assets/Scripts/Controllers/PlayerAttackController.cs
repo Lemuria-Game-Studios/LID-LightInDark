@@ -1,6 +1,7 @@
 using UnityEngine;
 using Signals;
 using System.Threading.Tasks;
+using Common;
 using Enums;
 
 namespace Controllers
@@ -10,7 +11,7 @@ namespace Controllers
         [SerializeField] private Transform attackPoint;
         [SerializeField] private float attackRange =0.5f;
         [SerializeField] private LayerMask enemyLayers;
-        [SerializeField] private int attackTime;
+        [SerializeField] private ushort attackTime;
         [SerializeField] private bool canAttack=true;
 
         private void Awake()
@@ -40,6 +41,7 @@ namespace Controllers
                 foreach (Collider enemies in hitEnemies)
                 {
                     Debug.Log("Hit");
+                    enemies.gameObject.GetComponent<Health>().ChangeHealth(PlayerSignals.Instance.OnGettingAttackPower(),gameObject.transform.position);
                 }
                 await Task.Delay(attackTime);
                 canAttack = true;
@@ -54,7 +56,7 @@ namespace Controllers
                 AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.RangeAttack);
                 Instantiate(Resources.Load<GameObject>("Arrows/Arrow"),
                     attackPoint.position,attackPoint.rotation);
-                await Task.Delay(attackTime);
+                await Task.Delay(PlayerSignals.Instance.OnGettingAttackSpeed.Invoke());
                 canAttack = true;
             }
             
