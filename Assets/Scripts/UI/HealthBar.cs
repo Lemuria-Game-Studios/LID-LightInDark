@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 namespace UI
 {
@@ -16,13 +17,19 @@ namespace UI
             _cam = Camera.main;
         }
 
-        public void UptadeHealthBar(float maxHealth, float currentHealth)
+        public async void UptadeHealthBar(float maxHealth, float currentHealth)
         {
             _target = currentHealth / maxHealth;
             if (_target <= 0)
             {
-                Destroy(gameObject,2);
+                await CanvasDisAble();
             }
+        }
+
+        private async Task CanvasDisAble()
+        {
+            await Task.Delay(2000);
+            GetComponent<Canvas>().enabled = false;
         }
 
         private void Update()

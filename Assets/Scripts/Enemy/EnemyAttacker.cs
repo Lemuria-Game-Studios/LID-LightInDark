@@ -73,7 +73,7 @@ namespace Enemy
 
         private IEnumerator SetAttackParams()
         {
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(1);
             IsAttacking = false;
             StartCoroutine(SetCanAttackTrueAfterDelay());
         }
