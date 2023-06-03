@@ -42,6 +42,11 @@ namespace UI_Events
             CoreGameSignals.Instance.OnGettingSpeedLevel += OnGettingSpeedLevel;
             CoreGameSignals.Instance.OnGettingAttackSpeedLevel += OnGettingAttackSpeedLevel;
             CoreGameSignals.Instance.OnSettingLevelValues += OnSettingLevelsValue;
+            CoreGameSignals.Instance.OnGettingAttackLevelCost += OnGettingAttackLevelCost;
+            CoreGameSignals.Instance.OnGettingHealthLevelCost += OnGettingHealthLevelCost;
+            CoreGameSignals.Instance.OnGettingAttackSpeedLevelCost += OnGettingAttackSpeedLevelCost;
+            CoreGameSignals.Instance.OnGettingSpeedLevelCost += OnGettingSpeedLevelCost;
+            CoreGameSignals.Instance.OnSettingLevelCostValues += OnSettingLevelCostsValue;
         }
 
         private void WritingValues()
@@ -58,40 +63,66 @@ namespace UI_Events
 
         public void AttackLevelButton()
         {
-            if (attackLevel >= 5) return;
-            attackLevel++;
-            attackLevelCost += 50;
-            WritingValues();
-            PlayerSignals.Instance.OnLevelUp(LevelUp.AttackPower);
-            CoreGameSignals.Instance.OnSavingSkillTree.Invoke();
-
+            if (CoreGameSignals.Instance.OnGettingMoney.Invoke() >= attackLevelCost)
+            {
+                if (attackLevel < 5)
+                {
+                    attackLevel++;
+                    CoreGameSignals.Instance.OnSettingMoney.Invoke(MoneyOperations.Spend, attackLevelCost);
+                    attackLevelCost += 50;
+                    WritingValues();
+                    PlayerSignals.Instance.OnLevelUp(LevelUp.AttackPower);
+                    CoreGameSignals.Instance.OnSavingSkillTree.Invoke();
+                }
+            }
         }
         public void HealthLevelButton()
         {
-            if (healthLevel >= 5) return;
-            healthLevel++;
-            healthLevelCost += 50;
-            WritingValues();
-            PlayerSignals.Instance.OnLevelUp(LevelUp.Health);
-            CoreGameSignals.Instance.OnSavingSkillTree.Invoke();
+            if (CoreGameSignals.Instance.OnGettingMoney.Invoke() >= healthLevelCost)
+            {
+                if (healthLevel < 5)
+                {
+                    healthLevel++;
+                    CoreGameSignals.Instance.OnSettingMoney.Invoke(MoneyOperations.Spend, healthLevelCost);
+                    healthLevelCost += 50;
+                    WritingValues();
+                    PlayerSignals.Instance.OnLevelUp(LevelUp.Health);
+                    CoreGameSignals.Instance.OnSavingSkillTree.Invoke(); 
+                }
+            }
         }
         public void SpeedLevelButton()
         {
-            if (speedLevel >= 5) return;
-            speedLevel++;
-            speedLevelCost += 50;
-            WritingValues();
-            PlayerSignals.Instance.OnLevelUp(LevelUp.Speed);
-            CoreGameSignals.Instance.OnSavingSkillTree.Invoke();
+            if (CoreGameSignals.Instance.OnGettingMoney.Invoke() >= speedLevelCost)
+            {
+                Debug.Log(CoreGameSignals.Instance.OnGettingMoney.Invoke());
+                if (speedLevel < 5)
+                {
+                    speedLevel++;
+                    CoreGameSignals.Instance.OnSettingMoney.Invoke(MoneyOperations.Spend, speedLevelCost);
+                    speedLevelCost += 50;
+                    WritingValues();
+                    PlayerSignals.Instance.OnLevelUp(LevelUp.Speed);
+                    CoreGameSignals.Instance.OnSavingSkillTree.Invoke();
+                }
+            }
         }
         public void AttackSpeedLevelButton()
         {
-            if (attackSpeedLevel >= 5) return;
-            attackSpeedLevel++;
-            attackSpeedLevelCost += 50;
-            WritingValues();
-            PlayerSignals.Instance.OnLevelUp(LevelUp.AttackSpeed);
-            CoreGameSignals.Instance.OnSavingSkillTree.Invoke();
+            if (CoreGameSignals.Instance.OnGettingMoney.Invoke() >= attackSpeedLevelCost)
+            {
+                Debug.Log(CoreGameSignals.Instance.OnGettingMoney.Invoke());
+                if (attackSpeedLevel < 5)
+                {
+                    attackSpeedLevel++;
+                    CoreGameSignals.Instance.OnSettingMoney.Invoke(MoneyOperations.Spend, attackSpeedLevelCost);
+                    attackSpeedLevelCost += 50;
+                    WritingValues();
+                    PlayerSignals.Instance.OnLevelUp(LevelUp.AttackSpeed);
+                    CoreGameSignals.Instance.OnSavingSkillTree.Invoke();
+                }
+                
+            }
         }
         private byte OnGettingAttackLevel()
         {
@@ -110,12 +141,37 @@ namespace UI_Events
             return attackSpeedLevel;
         }
 
+        private ushort OnGettingHealthLevelCost()
+        {
+            return healthLevelCost;
+        }
+        private ushort OnGettingAttackLevelCost()
+        {
+            return attackLevelCost;
+        }
+        private ushort OnGettingAttackSpeedLevelCost()
+        {
+            return attackSpeedLevelCost;
+        }
+        private ushort OnGettingSpeedLevelCost()
+        {
+            return speedLevelCost;
+        }
+
         private void OnSettingLevelsValue(byte aL, byte hL, byte sL, byte asL)
         {
             attackLevel = aL;
             healthLevel = hL;
             speedLevel = sL;
             attackSpeedLevel = asL;
+        }
+
+        private void OnSettingLevelCostsValue(ushort aL, ushort hL, ushort sL, ushort asL)
+        {
+            attackLevelCost = aL;
+            healthLevelCost = hL;
+            speedLevelCost = sL;
+            attackSpeedLevelCost = asL;
         }
         private void UnSubscribeEvents()
         {

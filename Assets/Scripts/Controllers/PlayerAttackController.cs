@@ -16,7 +16,7 @@ namespace Controllers
 
         private void Awake()
         {
-            attackTime = 1000;
+            attackTime = PlayerSignals.Instance.OnGettingAttackSpeed.Invoke();
         }
 
         private void OnEnable()
@@ -30,18 +30,30 @@ namespace Controllers
             InputSignals.Instance.OnArchering += OnArchering;
         }
 
-        private async void OnSwordAttack()
+        private async void OnSwordAttack(AttackCombo combo)
         {
             if (canAttack)
             {
                 canAttack = false;
-                AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.CloseAttack);
+                switch (combo)
+                {
+                    case AttackCombo.Attack1:
+                        AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.CloseAttack);
+                        Debug.Log("Normal");
+                        break;
+                    case AttackCombo.Attack2:
+                        AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Attack2);
+                        Debug.Log("Combo");
+                        break;
+                }
+                
                 Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayers);
 
                 foreach (Collider enemies in hitEnemies)
                 {
                     Debug.Log("Hit");
                     enemies.gameObject.GetComponent<Health>().ChangeHealth(PlayerSignals.Instance.OnGettingAttackPower(),gameObject.transform.position);
+                    enemies.gameObject.GetComponent<Health>().Push(transform.position);
                 }
                 await Task.Delay(attackTime);
                 canAttack = true;
@@ -54,7 +66,8 @@ namespace Controllers
             {
                 canAttack = false;
                 AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.RangeAttack);
-                Instantiate(Resources.Load<GameObject>("Arrows/Arrow"),
+                await Task.Delay(700);
+                Instantiate(Resources.Load<GameObject>("Arrows/Ok"),
                     attackPoint.position,attackPoint.rotation);
                 await Task.Delay(PlayerSignals.Instance.OnGettingAttackSpeed.Invoke());
                 canAttack = true;

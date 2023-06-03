@@ -7,6 +7,8 @@ namespace Enums
         Move,
         CloseAttack,
         RangeAttack,
-        Dash
+        Dash,
+        Attack2,
+        Die
     }
 }

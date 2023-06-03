@@ -1,6 +1,7 @@
 using Enums;
 using UnityEngine;
 using Signals;
+using TMPro;
 using UnityEngine.UI;
 
 
@@ -10,6 +11,7 @@ namespace Managers
     {
         [SerializeField] private GameObject canvas;
         [SerializeField] private Image dashMeter;
+        [SerializeField] private TextMeshProUGUI moneyText;
         private void OnEnable()
         {
             SubscribeEvents();
@@ -19,6 +21,7 @@ namespace Managers
         {
             CoreGameSignals.Instance.OnUIManagement += OnUIManagement;
             CoreGameSignals.Instance.DashMeter += DashMeter;
+            CoreGameSignals.Instance.OnMoneyUI += OnMoneyUI;
         }
         private void OnDisable()
         {
@@ -52,6 +55,11 @@ namespace Managers
         private void DashMeter(float amount)
         {
             dashMeter.fillAmount = amount / 100;
+        }
+
+        private void OnMoneyUI()
+        {
+            moneyText.text = "Money: " + CoreGameSignals.Instance.OnGettingMoney.Invoke().ToString();
         }
     }
 }

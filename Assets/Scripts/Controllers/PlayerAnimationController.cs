@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using Enums;
 using Signals;
+using UnityEditor;
+
 namespace Controllers
 {
     public class PlayerAnimationController : MonoBehaviour
@@ -11,6 +13,8 @@ namespace Controllers
         private static readonly int Attack = Animator.StringToHash("Attack");
         private static readonly int Blend = Animator.StringToHash("Blend");
         private static readonly int Spell = Animator.StringToHash("Spell");
+        private static readonly int Attack2 = Animator.StringToHash("Attack2");
+        private static readonly int Die = Animator.StringToHash("Die");
 
         private void Awake()
         {
@@ -30,11 +34,13 @@ namespace Controllers
         private void SubscribeEvents()
         {
             AnimationSignals.Instance.OnPlayingAnimation += OnPlayingAnimation;
+            InputSignals.Instance.OnGettingAnimator += OnGettingAnimator;
         }
         
         private void UnSubscribeEvents()
         {
             AnimationSignals.Instance.OnPlayingAnimation -= OnPlayingAnimation;
+            InputSignals.Instance.OnGettingAnimator -= OnGettingAnimator;
         }
 
         private void OnPlayingAnimation(AnimationStates state)
@@ -56,7 +62,19 @@ namespace Controllers
                     break;
                 case AnimationStates.Dash:
                     break;
+                case AnimationStates.Attack2:
+                    _animator.SetBool(Attack,false);
+                    _animator.SetTrigger(Attack2);
+                    break;
+                case AnimationStates.Die:
+                    _animator.SetTrigger(Die);
+                    break;
             }
+        }
+
+        private Animator OnGettingAnimator()
+        {
+            return _animator;
         }
 
     }

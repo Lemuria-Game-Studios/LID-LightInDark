@@ -1,5 +1,5 @@
+using System;
 using System.Threading.Tasks;
-using Cinemachine;
 using Enums;
 using UnityEngine;
 using Signals;
@@ -11,7 +11,7 @@ namespace Managers
         [Header("Attributes")] [SerializeField]
         private ushort maxHealth;
         [SerializeField] private ushort attackPower;
-        [SerializeField] private ushort health;
+        [SerializeField] private short health;
         [SerializeField] private float speed = 4;
         [SerializeField] private ushort attackSpeed;
 
@@ -104,7 +104,7 @@ namespace Managers
         {
             return attackPower;
         }
-        private ushort OnGettingHealth()
+        private short OnGettingHealth()
         {
             return health;
         }
@@ -113,32 +113,44 @@ namespace Managers
             return maxHealth;
         }
 
-        private void ChangingHealth(HealthOperations states,ushort amount)
+        public void ChangingHealth(HealthOperations states,short amount)
         {
             switch (states)
             {
                 case HealthOperations.Attack:
+                    Debug.Log("Hit by Enemy");
                     health -= amount;
                     if (health <= 0)
                     {
                         Die();
                     }
+                    PlayerSignals.Instance.OnUpdatingHealthBar.Invoke(Convert.ToSingle(maxHealth),Convert.ToSingle(health));
                     break;
                 case HealthOperations.Heal:
+                    health += amount;
                     if (health >= maxHealth)
                     {
-                        health += amount;
+                        health = (short)maxHealth;
                     }
+                    PlayerSignals.Instance.OnUpdatingHealthBar.Invoke(Convert.ToSingle(maxHealth),Convert.ToSingle(health));
                     break;
             }
             
         }
 
-        private void Die()
+        private async void Die()
         {
-            //Ölüm
+            AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Die);
+            CoreGameSignals.Instance.OnChangeGameState?.Invoke(GameStates.Die);
+            await DyingStop();
         }
 
+        private async Task DyingStop()
+        {
+            await Task.Delay(3000);
+            CoreGameSignals.Instance.OnPausingGame?.Invoke();
+            //Ölüm UI
+        }
         private AnimationStates OnGettingAnimationStates()
         {
             return _states;
@@ -161,7 +173,7 @@ namespace Managers
                   attackSpeed -= 100;
                   break;
             }
-            CoreGameSignals.Instance.OnSavingGame.Invoke();
+            //CoreGameSignals.Instance.OnSavingGame.Invoke();
         }
 
         private void OnSettingAttributes(ushort aP, ushort hP, float sp, ushort aS)

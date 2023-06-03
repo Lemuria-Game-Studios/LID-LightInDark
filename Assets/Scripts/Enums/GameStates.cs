@@ -4,6 +4,7 @@ namespace Enums
     {
         Game,
         Pause,
-        SkillTree
+        SkillTree,
+        Die
     }
 }

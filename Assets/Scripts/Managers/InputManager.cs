@@ -8,29 +8,30 @@ namespace Managers
     {
         private float _horizontalMovement;
         private float _verticalMovement;
-
-        /*private void OnEnable()
-        {
-            //SubscribeEvents();
-        }
-
-        private void SubscribeEvents()
-        {
-            
-        }*/
+        [SerializeField] private int _randomNum=1;
 
         private void Update()
         {
             PlayerInputs();
+            //ComboTimer();
+            //PerformAttackCombo();
         }
+        
 
         private void PlayerInputs()
         {
             if (CoreGameSignals.Instance.OnGettingGameState.Invoke() == GameStates.Game)
             {
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (Input.GetKeyDown(KeyCode.Mouse0)&& _randomNum==0)
                 {
-                    InputSignals.Instance.OnSwordAttack?.Invoke();
+                    _randomNum = Random.RandomRange(0, 2);
+                    InputSignals.Instance.OnSwordAttack?.Invoke(AttackCombo.Attack1);
+                }
+
+                if (Input.GetKeyDown(KeyCode.Mouse0) && _randomNum == 1) 
+                {
+                    _randomNum = Random.RandomRange(0, 2);
+                    InputSignals.Instance.OnSwordAttack?.Invoke(AttackCombo.Attack2);
                 }
                 if (Input.GetKeyDown(KeyCode.Mouse1))
                 {

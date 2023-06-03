@@ -1,3 +1,4 @@
+using Enums;
 using Signals;
 using UnityEngine;
 
@@ -24,10 +25,11 @@ namespace Managers
             ES3.Save("transform",PlayerSignals.Instance.OnGettingTransform.Invoke());
             ES3.Save("dashMeter",PlayerSignals.Instance.OnGettingDashMeter.Invoke());
             ES3.Save("CameraTransform",CameraSignals.Instance.OnGettingCameraTransform.Invoke());
-            ES3.Save("AttackPower",PlayerSignals.Instance.OnGettingAttackPower.Invoke());
+            ES3.Save("Money",CoreGameSignals.Instance.OnGettingMoney.Invoke());
+            /*ES3.Save("AttackPower",PlayerSignals.Instance.OnGettingAttackPower.Invoke());
             ES3.Save("Health",PlayerSignals.Instance.OnGettingHealth.Invoke());
             ES3.Save("Speed",PlayerSignals.Instance.OnGettingSpeed.Invoke());
-            ES3.Save("AttackSpeed",PlayerSignals.Instance.OnGettingAttackSpeed.Invoke());
+            ES3.Save("AttackSpeed",PlayerSignals.Instance.OnGettingAttackSpeed.Invoke());*/
         }
         
         private void OnLoadingGame()
@@ -37,6 +39,7 @@ namespace Managers
             ES3.Load<Transform>("CameraTransform", CameraSignals.Instance.OnGettingCameraTransform.Invoke());
             PlayerSignals.Instance.OnSettingAttributes.Invoke(ES3.Load<ushort>("AttackPower"),ES3.Load<ushort>("Health"),
                 ES3.Load<float>("Speed"),ES3.Load<ushort>("AttackSpeed"));
+            CoreGameSignals.Instance.OnSettingMoney(MoneyOperations.Save,ES3.Load<ushort>("Money"));
         }
 
         private void OnSavingSkillTree()
@@ -45,6 +48,14 @@ namespace Managers
                 ES3.Save("HealthLevel",CoreGameSignals.Instance.OnGettingHealthLevel.Invoke());
                 ES3.Save("SpeedLevel",CoreGameSignals.Instance.OnGettingSpeedLevel.Invoke());
                 ES3.Save("AttackSpeedLevel",CoreGameSignals.Instance.OnGettingAttackSpeedLevel.Invoke());
+                ES3.Save("AttackLevelCost",CoreGameSignals.Instance.OnGettingAttackLevelCost.Invoke());
+                ES3.Save("HealthLevelCost",CoreGameSignals.Instance.OnGettingHealthLevelCost.Invoke());
+                ES3.Save("SpeedLevelCost",CoreGameSignals.Instance.OnGettingSpeedLevelCost.Invoke());
+                ES3.Save("AttackSpeedLevelCost",CoreGameSignals.Instance.OnGettingAttackSpeedLevelCost.Invoke());
+                ES3.Save("AttackPower",PlayerSignals.Instance.OnGettingAttackPower.Invoke());
+                ES3.Save("Health",PlayerSignals.Instance.OnGettingHealth.Invoke());
+                ES3.Save("Speed",PlayerSignals.Instance.OnGettingSpeed.Invoke());
+                ES3.Save("AttackSpeed",PlayerSignals.Instance.OnGettingAttackSpeed.Invoke());
                 Debug.Log(CoreGameSignals.Instance.OnGettingAttackLevel.Invoke());
                 Debug.Log(CoreGameSignals.Instance.OnGettingHealthLevel.Invoke());
                 Debug.Log(CoreGameSignals.Instance.OnGettingSpeedLevel.Invoke());
@@ -58,6 +69,9 @@ namespace Managers
                 CoreGameSignals.Instance.OnSettingLevelValues(ES3.Load<byte>("AttackLevel"),
                     ES3.Load<byte>("HealthLevel"),
                     ES3.Load<byte>("SpeedLevel"), ES3.Load<byte>("AttackSpeedLevel"));
+                CoreGameSignals.Instance.OnSettingLevelCostValues(ES3.Load<ushort>("AttackLevelCost"),
+                    ES3.Load<ushort>("HealthLevelCost"),
+                    ES3.Load<ushort>("SpeedLevelCost"), ES3.Load<ushort>("AttackSpeedLevelCost"));
             }
         }
 
@@ -73,6 +87,7 @@ namespace Managers
             ES3.DeleteKey("AttackSpeed");
             PlayerSignals.Instance.OnSettingAttributes.Invoke(20,200,
                 4f,1000);
+            CoreGameSignals.Instance.OnSettingLevelCostValues.Invoke(100,100,100,100);
             Debug.Log("Reset");
         }
 
