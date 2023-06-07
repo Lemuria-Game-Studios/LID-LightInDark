@@ -103,7 +103,6 @@ GameObject:
   m_Component:
   - component: {fileID: 973066180881517064}
   - component: {fileID: 973066180881517061}
-  - component: {fileID: 973066180881517071}
   - component: {fileID: 973066180881517085}
   - component: {fileID: 973066180881517057}
   - component: {fileID: 973066180881517062}
@@ -111,6 +110,7 @@ GameObject:
   - component: {fileID: 973066180881517063}
   - component: {fileID: 973066180881517059}
   - component: {fileID: 973066180881517058}
+  - component: {fileID: 5459533839831062174}
   m_Layer: 7
   m_Name: Spider
   m_TagString: Untagged
@@ -153,19 +153,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!135 &973066180881517071
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 973066180881517069}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &973066180881517085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,6 +298,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &5459533839831062174
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973066180881517069}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.5422087, y: 1, z: 3.9624872}
+  m_Center: {x: 0.09293413, y: 0, z: 0.46543455}
 --- !u!1 &973066181692878205
 GameObject:
   m_ObjectHideFlags: 0

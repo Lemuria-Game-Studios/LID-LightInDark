@@ -16,19 +16,17 @@ namespace Managers
         [SerializeField] private ushort attackSpeed;
 
         private AnimationStates _states;
-        private float _dashMeter;
         [SerializeField] private bool canDash;
         private void OnEnable()
         {
             SubscribeEvents();
-            _dashMeter = 100;
         }
 
         private void SubscribeEvents()
         {
             InputSignals.Instance.CanDash += CanDash;
-            PlayerSignals.Instance.OnGettingDashMeter += OnGettingDashMeter;
-            PlayerSignals.Instance.OnSettingDashMeter += SetDashMeter;
+            /*PlayerSignals.Instance.OnGettingDashMeter += OnGettingDashMeter;
+            PlayerSignals.Instance.OnSettingDashMeter += SetDashMeter;*/
             PlayerSignals.Instance.OnGettingTransform += OnGettingTransform;
             InputSignals.Instance.OnGettingAnimationState += OnGettingAnimationStates;
             InputSignals.Instance.OnGetCanDash += OnGetCanDash;
@@ -40,17 +38,11 @@ namespace Managers
             PlayerSignals.Instance.OnSettingAttributes += OnSettingAttributes;
         }
 
-        private void Update()
-        {
-            DashMeter();
-        }
-        
         private void CanDash()
         {
-            if (_dashMeter >= 30 && !canDash)
+            if (!canDash)
             {
                 canDash = true;
-                _dashMeter -= 30;
                 PlayerSignals.Instance.OnDashing?.Invoke();
                 CanDashAsync();
             }
@@ -67,16 +59,16 @@ namespace Managers
         }
 
 
-        private void DashMeter()
+        /*private void DashMeter()
         {
             if (_dashMeter < 100)
             {
                 _dashMeter += (Time.deltaTime)*10;
                 CoreGameSignals.Instance.DashMeter?.Invoke(_dashMeter);
             }
-        }
+        }*/
 
-        private float OnGettingDashMeter()
+        /*private float OnGettingDashMeter()
         {
             return _dashMeter;
         }
@@ -84,7 +76,7 @@ namespace Managers
         private void SetDashMeter(float amount)
         {
             _dashMeter=amount;
-        }
+        }*/
 
         private Transform OnGettingTransform()
         {
