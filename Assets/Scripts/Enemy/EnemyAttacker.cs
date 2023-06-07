@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using MoreMountains.Feedbacks;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace Enemy
 {
@@ -9,11 +12,12 @@ namespace Enemy
     {
         public float AttackRange;
         [Range(0, 360)] public float AttackAngle;
+        private Animator _animator;
         [SerializeField] [Range(0,10)] private float rotateSpeedInRange;
         [SerializeField] private LayerMask targetLayer;
         [SerializeField] [Min(0f)] private float attackCooldown = 0.5f;
         
-        private bool _canAttack = true;
+        public bool CanAttack = true;
 
         [Header("FeedBacks")] 
         [SerializeField] private List<MMFeedbacks> attackFeedbackList;
@@ -22,6 +26,11 @@ namespace Enemy
         [HideInInspector] public bool IsAttacking;
 
         [HideInInspector] public Transform Target;
+
+        private void Awake()
+        {
+            _animator = GetComponent<Animator>();
+        }
 
         private void Start()
         {
@@ -47,28 +56,33 @@ namespace Enemy
         
         public void Attack()
         {
-            if (IsAttacking || !_canAttack) return;
+            if (IsAttacking || !CanAttack) return;
             RotateTowardsTarget();
             if (Vector3.Angle(transform.forward, Target.position - transform.position) > AttackAngle/2) return;
             IsAttacking = true;
-            _canAttack = false;
+            CanAttack = false;
             attackFeedbackList[Random.Range(0, attackFeedbackList.Count - 1)].PlayFeedbacks();
+            StartCoroutine(SetAttackParams());
         }
         private void RotateTowardsTarget()
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Target.transform.position - transform.position), Time.deltaTime * rotateSpeedInRange);
         }
+        
+        
 
-        private void SetAttackParams()
+        private IEnumerator SetAttackParams()
         {
+            yield return new WaitForSeconds(1);
             IsAttacking = false;
             StartCoroutine(SetCanAttackTrueAfterDelay());
         }
+        
 
         private IEnumerator SetCanAttackTrueAfterDelay()
         {
             yield return new WaitForSeconds(attackCooldown);
-            _canAttack = true;
+            CanAttack = true;
         }
     }
 }

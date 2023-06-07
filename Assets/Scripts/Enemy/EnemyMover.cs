@@ -10,16 +10,18 @@ namespace Enemy
         public float WanderRange;
         public bool IsMovingToPlayer;
 
-        private bool _isDestinationSet;
+        [SerializeField] private bool _isDestinationSet;
 
-        private NavMeshAgent _nav;
+        [SerializeField]private NavMeshAgent _nav;
 
         public bool CanMove = true;
         [HideInInspector] public Transform target;
+        private Animator _animator;
+        private static readonly int İsWalking = Animator.StringToHash("isWalking");
 
         private void Awake()
         {
-            _nav = GetComponent<NavMeshAgent>();
+            _animator = GetComponent<Animator>();
         }
 
         private void FixedUpdate()
@@ -35,6 +37,7 @@ namespace Enemy
             {
                 _isDestinationSet = true;
                 _nav.destination = target.transform.position;
+                _animator.SetBool(İsWalking, true);
             }
             else if (!_isDestinationSet)
             {
@@ -51,12 +54,17 @@ namespace Enemy
         private void SetIfCanMove()
         {
             _nav.isStopped = !CanMove;
+            if (!CanMove)
+            {
+                _animator.SetBool(İsWalking, false);
+            }
         }
         
         private void CheckIfReached()
         {
             if (Vector3.Distance(_nav.destination, transform.position) < 1f)
             {
+                _animator.SetBool(İsWalking, false);
                 StartCoroutine(SetIsDestinationSetFalseAfterDelay());
             }
         }
@@ -64,6 +72,7 @@ namespace Enemy
         private IEnumerator SetIsDestinationSetFalseAfterDelay()
         {
             yield return new WaitForSeconds(3f);
+            _animator.SetBool(İsWalking, true);
             _isDestinationSet = false;
             StopAllCoroutines();
         }

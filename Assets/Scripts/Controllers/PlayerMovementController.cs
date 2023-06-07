@@ -1,12 +1,10 @@
 using UnityEngine;
 using Signals;
 using Enums;
-using System.Threading.Tasks;
 
 namespace Controllers
 {
     public class PlayerMovementController : MonoBehaviour {
-        [SerializeField] private float speed = 5;
         [SerializeField] private float dashSpeed = 10;
         private Rigidbody _rigidbody;
         [SerializeField] private Camera mainCamera;
@@ -16,7 +14,10 @@ namespace Controllers
         private float _turnSmoothVelocity;
         private Vector3 _moveDirection;
         private Vector3 _movementDirection = Vector3.zero;
-        
+        private const int _rotationAngle = 45;
+        //private Vector3 _lastDirection;
+        private float _horizontalMovement;
+        private float _verticalMovement;
 
 
         private void OnEnable()
@@ -28,120 +29,74 @@ namespace Controllers
         {
             //PlayerSignals.Instance.OnSettingSpeed += OnSettingSpeed;
             PlayerSignals.Instance.OnDashing += OnDashing;
-            InputSignals.Instance.OnGetIsDashing += OnGetIsDashing;
+            //InputSignals.Instance.OnMovementAndRotation += OnMovementAndRotation;
         }
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
         }
-        private void FixedUpdate() {
-            //Move();
-            //Movement();
-            MovementAndRotation();
+
+        private void Update()
+        {
+            OnMovementAndRotation();
         }
 
-        private void MovementAndRotation()
+        private void OnMovementAndRotation()
         {
-            float horizontalMovement = Input.GetAxisRaw("Horizontal"); 
-        float verticalMovement = Input.GetAxisRaw("Vertical"); 
+            if (CoreGameSignals.Instance.OnGettingGameState() == GameStates.Game)
+            {
+                if (!InputSignals.Instance.OnGetCanDash.Invoke())
+                {
+                    _horizontalMovement = Input.GetAxisRaw("Horizontal"); 
+                    _verticalMovement = Input.GetAxisRaw("Vertical"); 
+                }
+            
+                _movementDirection = new Vector3(_horizontalMovement, 0f, _verticalMovement).normalized;
+                Quaternion rotation = Quaternion.Euler(0f, _rotationAngle, 0f);
+                _movementDirection = rotation * _movementDirection;
         
-        switch (horizontalMovement)
-        {
-            case > 0 when verticalMovement > 0:
-                _movementDirection = new Vector3(1, 0, 1).normalized;
-                break;
-            case > 0 when verticalMovement < 0:
-                _movementDirection = new Vector3(1, 0, -1).normalized;
-                break;
-            case > 0:
-                _movementDirection = new Vector3(1, 0, 0).normalized;
-                break;
-            case < 0 when verticalMovement > 0:
-                _movementDirection = new Vector3(-1, 0, 1).normalized;
-                break;
-            case < 0 when verticalMovement < 0:
-                _movementDirection = new Vector3(-1, 0, -1).normalized;
-                break;
-            case < 0:
-                _movementDirection = new Vector3(-1, 0, 0).normalized;
-                break;
-            default:
-            {
-                if (verticalMovement > 0)
-                {
-                    _movementDirection = new Vector3(0, 0, 1).normalized;
-                }
-                else if (verticalMovement < 0)
-                {
-                    _movementDirection = new Vector3(0, 0, -1).normalized;
-                }
-                else
-                {
-                    _movementDirection = Vector3.zero;
-                }
 
-                break;
-            }
-        }
-
-        if (_movementDirection != Vector3.zero)
-        {
-            AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Move);
-            transform.rotation = Quaternion.LookRotation(_movementDirection);
-        }
-        else if (_movementDirection == Vector3.zero)
-        {
-            AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Idle);
-        }
+                if (_movementDirection != Vector3.zero)
+                {
+                    AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Move);
+                    transform.rotation = Quaternion.LookRotation(_movementDirection);
+                    //_lastDirection = _movementDirection;
+                }
+                else if (_movementDirection == Vector3.zero)
+                {
+                    AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Idle);
+                }
         
-        Vector3 velocity = _movementDirection * speed;
-        transform.position += velocity * Time.deltaTime;
+                Vector3 velocity = _movementDirection * PlayerSignals.Instance.OnGettingSpeed.Invoke();
+        
+                transform.position += velocity * Time.deltaTime;
+        
+        
 
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-        float rayDistance;
+                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+                Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+                float rayDistance;
 
-        if (groundPlane.Raycast(ray, out rayDistance))
-        {
-            Vector3 lookAtPos = ray.GetPoint(rayDistance);
-            transform.LookAt(new Vector3(lookAtPos.x, transform.position.y, lookAtPos.z));
-        }
-        }
-
-        /*private void Move()
-        {
-            var transform1 = transform;
-                rb.MovePosition(transform1.position + transform1.forward * (ınputManager.input.normalized.magnitude * speed * Time.deltaTime));
-                
-                if (ınputManager.input != Vector3.zero)
-            {
-                AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Move);
+                if (groundPlane.Raycast(ray, out rayDistance) && CoreGameSignals.Instance.OnGettingGameState()==GameStates.Game)
+                {
+                    Vector3 lookAtPos = ray.GetPoint(rayDistance);
+                    transform.LookAt(new Vector3(lookAtPos.x, transform.position.y, lookAtPos.z));
+                }
             }
-            else if(ınputManager.input==Vector3.zero)
+            else
             {
-                AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Idle);
+                _movementDirection = Vector3.zero;
             }
-        }*/
-
-        private void OnSettingSpeed(float num)
-        {
-            speed = num;
+            
         }
 
-        private async void OnDashing()
+        private void OnDashing()
         {
-            _isDashing = true;
             AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Dash);
             _rigidbody.AddForce(_movementDirection*dashSpeed,ForceMode.Impulse);
-            await Task.Delay(300);
-            _isDashing = false;
         }
         
-        private bool OnGetIsDashing()
-        {
-            return _isDashing;
-        }
-
+       
         private void OnDisable()
         {
             UnSubscribeEvents();
@@ -150,7 +105,6 @@ namespace Controllers
         {
             //PlayerSignals.Instance.OnSettingSpeed -= OnSettingSpeed;
             PlayerSignals.Instance.OnDashing -= OnDashing;
-            InputSignals.Instance.OnGetIsDashing -= OnGetIsDashing;
         }
     }
 

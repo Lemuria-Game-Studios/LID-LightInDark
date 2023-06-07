@@ -12,7 +12,7 @@ namespace Editors
         #region SerializedProperties
 
         private SerializedProperty _maxHealth;
-        
+        private SerializedProperty _profit;
         private SerializedProperty _weakPointEnabled;
         private SerializedProperty _weakPointDamageAmplification;
         private SerializedProperty _weakPointAngle;
@@ -20,6 +20,8 @@ namespace Editors
         
         private SerializedProperty _getHitFb;
         private SerializedProperty _dieFb;
+        
+        private SerializedProperty _healthBarCanvas;
 
         private bool _feedbackList;
         #endregion
@@ -29,7 +31,7 @@ namespace Editors
             _health = (Health)target;
             
             _maxHealth = serializedObject.FindProperty("maxHealth");
-            
+            _profit = serializedObject.FindProperty("profit");
             _weakPointEnabled = serializedObject.FindProperty("WeakPointEnabled");
             _weakPointDamageAmplification = serializedObject.FindProperty("weakPointDamageAmplification");
             _weakPointAngle = serializedObject.FindProperty("WeakPointAngle");
@@ -38,6 +40,8 @@ namespace Editors
             _getHitFb = serializedObject.FindProperty("getHitFb");
             _dieFb = serializedObject.FindProperty("dieFb");
             
+            _healthBarCanvas = serializedObject.FindProperty("healthBarCanvas");
+            
         }
 
         public override void OnInspectorGUI()
@@ -45,6 +49,8 @@ namespace Editors
             serializedObject.Update();
             
             EditorGUILayout.PropertyField(_maxHealth);
+            EditorGUILayout.PropertyField(_profit);
+            EditorGUILayout.PropertyField(_healthBarCanvas);
             if (_health.WeakPointEnabled) EditorGUILayout.Space(10);
             EditorGUILayout.PropertyField(_weakPointEnabled);
             if (_health.WeakPointEnabled)

@@ -1,25 +1,42 @@
+using Common;
 using UnityEngine;
 
 namespace GameObjects
 {
     public class Arrow : MonoBehaviour
     {
+        
+        private void OnEnable()
+        {
+            var transform1 = transform;
+            Vector3 rotasyon = transform1.eulerAngles;
+            rotasyon.x = -90f;
+            transform1.eulerAngles = rotasyon;
+        }
+
         private void Update()
         {
             Movement();
+            
         }
 
         private void Movement()
         {
-            transform.Translate(0,0,0.01f);
+            transform.Translate(0,-0.01f,0);
+            
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Arrow");
-            //collision.gameObject.GetComponent<Rigidbody>().AddForce(collision.gameObject.transform.forward*5f,ForceMode.Impulse);
-            collision.gameObject.transform.Translate(collision.gameObject.transform.forward*0.5f);
-            Destroy(gameObject);
+            var collidedObjectLayer = other.gameObject.layer;
+            if (LayerMask.LayerToName(collidedObjectLayer) == "Enemy")
+            {
+                Debug.Log("Arrow");
+                other.gameObject.GetComponent<Health>().Push(transform.position);
+                other.gameObject.transform.Translate(other.gameObject.transform.forward*0.5f);
+                Destroy(gameObject);
+            }
+            
         }
     }
 }

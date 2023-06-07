@@ -1,11 +1,12 @@
-using Common;
+using Enums;
+using Managers;
 using UnityEngine;
 
 namespace Enemy
 {
     public class DamageZone : MonoBehaviour
     {
-        [SerializeField] private float damageAmount;
+        [SerializeField] private ushort damageAmount;
         [SerializeField] private LayerMask targetLayer;
         
         private void DealDamage()
@@ -16,7 +17,7 @@ namespace Enemy
             
             if (rangeChecks.Length > 0)
             {
-                rangeChecks[0].GetComponent<Health>().ChangeHealth(-damageAmount, transform.position);
+                rangeChecks[0].gameObject.GetComponent<PlayerManager>().ChangingHealth(HealthOperations.Attack,(short)damageAmount);
             }
             
             Destroy(gameObject);
