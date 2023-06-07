@@ -105,10 +105,10 @@ Material:
     - _FaceDilate: 0
     - _FaceUVSpeedX: 0
     - _FaceUVSpeedY: 0
-    - _GlowInner: 0.051
-    - _GlowOffset: 0
-    - _GlowOuter: 0.339
-    - _GlowPower: 0.59
+    - _GlowInner: 0.109
+    - _GlowOffset: -0.22
+    - _GlowOuter: 0.676
+    - _GlowPower: 0.05
     - _GradientScale: 6
     - _LightAngle: 3.1416
     - _MaskSoftnessX: 0
@@ -134,10 +134,10 @@ Material:
     - _StencilWriteMask: 255
     - _TextureHeight: 512
     - _TextureWidth: 512
-    - _UnderlayDilate: -0.32
-    - _UnderlayOffsetX: 0.48
-    - _UnderlayOffsetY: -0.5
-    - _UnderlaySoftness: 0.425
+    - _UnderlayDilate: -0.27
+    - _UnderlayOffsetX: -0.41
+    - _UnderlayOffsetY: -0.53
+    - _UnderlaySoftness: 0.439
     - _VertexOffsetX: 0
     - _VertexOffsetY: 0
     - _WeightBold: 0.75
