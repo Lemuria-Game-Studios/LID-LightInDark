@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2758920380541894017
 Transform:
   m_ObjectHideFlags: 0
@@ -132,7 +132,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5425397866218799232
 Transform:
   m_ObjectHideFlags: 0
@@ -241,9 +241,10 @@ GameObject:
   - component: {fileID: 3930846706886264645}
   - component: {fileID: 7628621761073856582}
   - component: {fileID: 2336269589975939767}
+  - component: {fileID: 1619955549669492799}
   m_Layer: 0
   m_Name: torchHolder.001
-  m_TagString: Untagged
+  m_TagString: Light
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -316,6 +317,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1619955549669492799
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6308303875916605025}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.21103826, y: 0.41723514, z: 0.2927258}
+  m_Center: {x: -0.0004444942, y: -0.0054016486, z: 0.1463592}
 --- !u!1 &8652545364633512746
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,7 +347,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5581441204008648150
 Transform:
   m_ObjectHideFlags: 0

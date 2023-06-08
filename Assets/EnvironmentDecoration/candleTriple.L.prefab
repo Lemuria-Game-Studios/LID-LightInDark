@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 751479212848424470}
   - component: {fileID: 5080906097760731780}
   - component: {fileID: 7812076429828720050}
+  - component: {fileID: 8518958436279064069}
   m_Layer: 0
   m_Name: candleTriple.L
-  m_TagString: Untagged
+  m_TagString: Light
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -86,6 +87,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &8518958436279064069
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8050354084169659}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.06272641, y: 0.1438269, z: 0.0720252}
+  m_Center: {x: -0.0010351855, y: 0.074422255, z: -0.0013978928}
 --- !u!1 &9569973457859511
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,7 +117,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &477121810753210313
 Transform:
   m_ObjectHideFlags: 0
@@ -195,7 +209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Version: 1
   m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
+  m_AdditionalLightsShadowResolutionTier: 0
   m_LightLayerMask: 1
   m_CustomShadowLayers: 0
   m_ShadowLayerMask: 1
@@ -218,7 +232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &123259199669871400
 Transform:
   m_ObjectHideFlags: 0
