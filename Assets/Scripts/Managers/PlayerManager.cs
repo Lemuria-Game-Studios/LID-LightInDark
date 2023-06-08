@@ -50,7 +50,7 @@ namespace Managers
 
         private async Task CanDashAsync()
         {
-            await Task.Delay(300);
+            await Task.Delay(400);
             canDash = false;
         }
         private bool OnGetCanDash()

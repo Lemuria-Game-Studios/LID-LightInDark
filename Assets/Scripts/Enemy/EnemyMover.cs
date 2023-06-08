@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 namespace Enemy
 {
@@ -22,6 +24,11 @@ namespace Enemy
         private void Awake()
         {
             _animator = GetComponent<Animator>();
+        }
+
+        private void OnEnable()
+        {
+            WanderCenterPosition = transform.position;
         }
 
         private void FixedUpdate()

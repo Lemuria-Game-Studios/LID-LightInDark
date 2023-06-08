@@ -22,7 +22,7 @@ namespace GameObjects
 
         private void Movement()
         {
-            transform.Translate(0,-0.01f,0);
+            transform.Translate(0,-0.05f,0);
             
         }
 
@@ -33,6 +33,7 @@ namespace GameObjects
             {
                 Debug.Log("Arrow");
                 other.gameObject.GetComponent<Health>().Push(transform.position);
+                other.gameObject.GetComponent<Health>().ChangeHealth(20,transform.position);
                 other.gameObject.transform.Translate(other.gameObject.transform.forward*0.5f);
                 Destroy(gameObject);
             }

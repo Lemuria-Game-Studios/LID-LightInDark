@@ -55,9 +55,16 @@ namespace Controllers
                     enemies.gameObject.GetComponent<Health>().ChangeHealth(PlayerSignals.Instance.OnGettingAttackPower(),gameObject.transform.position);
                     enemies.gameObject.GetComponent<Health>().Push(transform.position);
                 }
-                await Task.Delay(attackTime);
-                canAttack = true;
+
+                WaitForAttack();
+
             }
+        }
+
+        private async Task WaitForAttack()
+        {
+            await Task.Delay(1000);
+            canAttack = true;
         }
 
         private async void OnArchering()
