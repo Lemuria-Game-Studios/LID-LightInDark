@@ -1,3 +1,4 @@
+using System;
 using Enums;
 using Signals;
 using UnityEngine;
@@ -6,6 +7,11 @@ namespace Managers
 {
     public class SaveManager : MonoBehaviour
     {
+        private void Awake()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+
         private void OnEnable()
         {
             SubscribeEvents();

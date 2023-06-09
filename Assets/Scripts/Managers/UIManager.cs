@@ -45,10 +45,10 @@ namespace Managers
                     //Instantiate(Resources.Load<GameObject>("UI/InGameUI"), canvas.transform, false);
                     break;
                 case GameStates.Pause:
-                    Instantiate(Resources.Load<GameObject>("UI/PauseMenu"), canvas.transform, false);
+                    Instantiate(Resources.Load<GameObject>("UI/Pause Screen"), canvas.transform, false);
                     break;
                 case GameStates.SkillTree:
-                    Instantiate(Resources.Load<GameObject>("UI/SkillTreeUI"), canvas.transform, false);
+                    Instantiate(Resources.Load<GameObject>("UI/Skill Screen"), canvas.transform, false);
                     break;
             }
         }

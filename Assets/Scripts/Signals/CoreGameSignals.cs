@@ -31,5 +31,7 @@ namespace Signals
         public Func<ushort> OnGettingAttackSpeedLevelCost = () => 0;
         public Func<ushort> OnGettingSpeedLevelCost = () => 0;
         public UnityAction<ushort,ushort,ushort,ushort> OnSettingLevelCostValues =delegate {  };
+        public UnityAction<string> OnLoadingScene = delegate {  };
+        public UnityAction<MainMenuStates> OnMainMenuUIManagement = delegate {  };
     }
 }
