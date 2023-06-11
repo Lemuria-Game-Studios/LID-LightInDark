@@ -716,6 +716,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   attackCooldown: 0.5
+  canRotateWhileAttacking: 0
   CanAttack: 1
   attackFeedbackList:
   - {fileID: 973066181819662021}
@@ -2551,7 +2552,7 @@ MonoBehaviour:
   PositionMode: 1
   InstantiateParticlesPosition: {fileID: 973066180881517064}
   TargetWorldPosition: {x: 0, y: 0, z: 0}
-  Offset: {x: 0, y: 0, z: 0}
+  Offset: {x: 0, y: -0.5, z: 0}
   NestParticles: 1
   ApplyRotation: 1
   ApplyScale: 0

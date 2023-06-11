@@ -51,6 +51,7 @@ namespace Enemy
                     _mover.CanMove = false;
                     _mover.IsMovingToPlayer = false;
                     _attacker.CanAttack = false;
+                    _attacker.CanRotateWhileAttacking = false; 
                     break;
                 case EnemyStates.Wandering:
                     _mover.IsMovingToPlayer = false;

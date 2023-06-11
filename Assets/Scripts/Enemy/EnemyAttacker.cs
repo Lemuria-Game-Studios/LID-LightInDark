@@ -16,7 +16,7 @@ namespace Enemy
         [SerializeField] [Range(0,10)] private float rotateSpeedInRange;
         [SerializeField] private LayerMask targetLayer;
         [SerializeField] [Min(0f)] private float attackCooldown = 0.5f;
-        [SerializeField] private bool canRotateWhileAttacking;
+        public bool CanRotateWhileAttacking;
         
         public bool CanAttack = true;
 
@@ -40,7 +40,7 @@ namespace Enemy
 
         private void Update()
         {
-            if (canRotateWhileAttacking)
+            if (CanRotateWhileAttacking)
             {
                 RotateTowardsTarget();
             }
