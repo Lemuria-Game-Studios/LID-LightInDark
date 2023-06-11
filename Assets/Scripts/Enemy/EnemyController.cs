@@ -10,7 +10,7 @@ namespace Enemy
 
         private enum EnemyStates
         { Wandering, MovingToPlayer, Aiming, Attacking,Dead }
-        private EnemyStates _state = EnemyStates.Wandering;    
+        [SerializeField] private EnemyStates _state = EnemyStates.Wandering;    
         private EnemySensor _sensor;
         private EnemyMover _mover;
         private EnemyAttacker _attacker;

@@ -8,6 +8,7 @@ namespace GameObjects
         
         private void OnEnable()
         {
+            Destroy(gameObject,5);
             var transform1 = transform;
             Vector3 rotasyon = transform1.eulerAngles;
             rotasyon.x = -90f;
@@ -22,7 +23,7 @@ namespace GameObjects
 
         private void Movement()
         {
-            transform.Translate(0,-0.01f,0);
+            transform.Translate(0,-10f*Time.deltaTime,0);
             
         }
 
@@ -33,6 +34,7 @@ namespace GameObjects
             {
                 Debug.Log("Arrow");
                 other.gameObject.GetComponent<Health>().Push(transform.position);
+                other.gameObject.GetComponent<Health>().ChangeHealth(20,transform.position);
                 other.gameObject.transform.Translate(other.gameObject.transform.forward*0.5f);
                 Destroy(gameObject);
             }

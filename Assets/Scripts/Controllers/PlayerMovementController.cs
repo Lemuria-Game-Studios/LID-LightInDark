@@ -93,7 +93,7 @@ namespace Controllers
         private void OnDashing()
         {
             AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Dash);
-            _rigidbody.AddForce(_movementDirection*dashSpeed,ForceMode.Impulse);
+            _rigidbody.AddForce(_movementDirection.normalized*dashSpeed,ForceMode.Impulse);
         }
         
        
