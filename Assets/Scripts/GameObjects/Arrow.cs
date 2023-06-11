@@ -1,5 +1,7 @@
+using System;
 using Common;
 using UnityEngine;
+using Signals;
 
 namespace GameObjects
 {
@@ -34,7 +36,7 @@ namespace GameObjects
             {
                 Debug.Log("Arrow");
                 other.gameObject.GetComponent<Health>().Push(transform.position);
-                other.gameObject.GetComponent<Health>().ChangeHealth(20,transform.position);
+                other.gameObject.GetComponent<Health>().ChangeHealth( Convert.ToSingle(PlayerSignals.Instance.OnGettingArrowPower?.Invoke()),transform.position);
                 other.gameObject.transform.Translate(other.gameObject.transform.forward*0.5f);
                 Destroy(gameObject);
             }

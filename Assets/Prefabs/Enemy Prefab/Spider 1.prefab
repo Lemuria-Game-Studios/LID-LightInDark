@@ -555,7 +555,7 @@ GameObject:
   - component: {fileID: 973066180881517058}
   - component: {fileID: 5459533839831062174}
   m_Layer: 7
-  m_Name: Spider
+  m_Name: Spider 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -570,7 +570,7 @@ Transform:
   m_GameObject: {fileID: 973066180881517069}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -12.997, y: 0.90618, z: 1.1563}
-  m_LocalScale: {x: 0.49619, y: 0.49619, z: 0.49619}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 973066181692878204}
@@ -609,8 +609,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDead: 0
-  profit: 20
-  maxHealth: 50
+  profit: 100
+  maxHealth: 150
   WeakPointEnabled: 0
   currentHealth: 0
   weakPointDamageAmplification: 0

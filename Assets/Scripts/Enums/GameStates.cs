@@ -5,6 +5,6 @@ namespace Enums
         Game,
         Pause,
         SkillTree,
-        Die
+        Dead
     }
 }

@@ -6,7 +6,7 @@ namespace Managers
 {
     public class MoneyManager : MonoBehaviour
     {
-        [SerializeField]private ushort money= 1000;
+        [SerializeField]private ushort money= 0;
 
         private void OnEnable()
         {

@@ -8,13 +8,7 @@ namespace UI_Events
     {
         public void StartButton()
         {
-            if (!ES3.KeyExists("AttackLevel")) {
-                CoreGameSignals.Instance.OnLoadingScene("SampleScene");
-            }
-            else
-            {
-                Debug.Log("Yoek");
-            }
+            CoreGameSignals.Instance.OnLoadingScene?.Invoke("SampleScene");
         }
 
         public void OptionsButton()

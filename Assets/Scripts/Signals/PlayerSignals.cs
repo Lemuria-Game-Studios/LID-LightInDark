@@ -19,5 +19,6 @@ namespace Signals
         public Func<short> OnGettingHealth = () => 0;
         public  UnityAction<ushort,ushort,float,ushort> OnSettingAttributes = delegate{  };
         public UnityAction<float,float> OnUpdatingHealthBar = delegate {  };
+        public Func<ushort> OnGettingArrowPower = () => 0;
     }
 }

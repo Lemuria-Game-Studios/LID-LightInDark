@@ -50,6 +50,9 @@ namespace Managers
                 case GameStates.SkillTree:
                     Instantiate(Resources.Load<GameObject>("UI/Skill Screen"), canvas.transform, false);
                     break;
+                case GameStates.Dead:
+                    Instantiate(Resources.Load<GameObject>("UI/Lose Screen"), canvas.transform, false);
+                    break;
             }
         }
         private void DashMeter(float amount)
@@ -59,7 +62,7 @@ namespace Managers
 
         private void OnMoneyUI()
         {
-            moneyText.text = "Money: " + CoreGameSignals.Instance.OnGettingMoney.Invoke().ToString();
+            moneyText.text = "Gold: " + CoreGameSignals.Instance.OnGettingMoney.Invoke().ToString();
         }
     }
 }

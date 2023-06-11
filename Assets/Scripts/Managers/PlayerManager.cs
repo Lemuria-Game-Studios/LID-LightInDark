@@ -14,6 +14,7 @@ namespace Managers
         [SerializeField] private short health;
         [SerializeField] private float speed = 4;
         [SerializeField] private ushort attackSpeed;
+        [SerializeField] private ushort arrowPower;
 
         private AnimationStates _states;
         [SerializeField] private bool canDash;
@@ -36,6 +37,7 @@ namespace Managers
             PlayerSignals.Instance.OnGettingHealth += OnGettingHealth;
             PlayerSignals.Instance.OnGettingAttackPower += OnGettingAttackPower;
             PlayerSignals.Instance.OnSettingAttributes += OnSettingAttributes;
+            PlayerSignals.Instance.OnGettingArrowPower += OnGettingArrowPower;
         }
 
         private void CanDash()
@@ -57,27 +59,6 @@ namespace Managers
         {
             return canDash;
         }
-
-
-        /*private void DashMeter()
-        {
-            if (_dashMeter < 100)
-            {
-                _dashMeter += (Time.deltaTime)*10;
-                CoreGameSignals.Instance.DashMeter?.Invoke(_dashMeter);
-            }
-        }*/
-
-        /*private float OnGettingDashMeter()
-        {
-            return _dashMeter;
-        }
-
-        private void SetDashMeter(float amount)
-        {
-            _dashMeter=amount;
-        }*/
-
         private Transform OnGettingTransform()
         {
             return transform;
@@ -103,6 +84,11 @@ namespace Managers
         private ushort OnGettingMaxHealth()
         {
             return maxHealth;
+        }
+
+        private ushort OnGettingArrowPower()
+        {
+            return arrowPower;
         }
 
         public void ChangingHealth(HealthOperations states,short amount)
@@ -133,15 +119,15 @@ namespace Managers
         private async void Die()
         {
             AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Die);
-            CoreGameSignals.Instance.OnChangeGameState?.Invoke(GameStates.Die);
+            CoreGameSignals.Instance.OnChangeGameState?.Invoke(GameStates.Dead);
             await DyingStop();
         }
 
         private async Task DyingStop()
         {
-            await Task.Delay(3000);
+            await Task.Delay(2000);
+            CoreGameSignals.Instance.OnUIManagement?.Invoke(GameStates.Dead);
             CoreGameSignals.Instance.OnPausingGame?.Invoke();
-            //Ölüm UI
         }
         private AnimationStates OnGettingAnimationStates()
         {
@@ -156,13 +142,15 @@ namespace Managers
                   attackPower += 5;
                   break;
               case LevelUp.Health:
-                  health += 50;
+                  maxHealth += 50;
+                  ChangingHealth(HealthOperations.Heal,50);
+                  PlayerSignals.Instance.OnUpdatingHealthBar.Invoke(Convert.ToSingle(maxHealth),Convert.ToSingle(health));
                   break;
               case LevelUp.Speed:
-                  speed += 0.75f;
+                  speed += 0.3f;
                   break;
               case LevelUp.AttackSpeed:
-                  attackSpeed -= 100;
+                  arrowPower += 5;
                   break;
             }
             //CoreGameSignals.Instance.OnSavingGame.Invoke();
