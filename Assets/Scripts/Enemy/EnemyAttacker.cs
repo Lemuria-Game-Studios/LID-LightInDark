@@ -61,7 +61,7 @@ namespace Enemy
             if (Vector3.Angle(transform.forward, Target.position - transform.position) > AttackAngle/2) return;
             IsAttacking = true;
             CanAttack = false;
-            attackFeedbackList[Random.Range(0, attackFeedbackList.Count - 1)].PlayFeedbacks();
+            attackFeedbackList[Random.Range(0, attackFeedbackList.Count)].PlayFeedbacks();
             StartCoroutine(SetAttackParams());
         }
         private void RotateTowardsTarget()
@@ -73,7 +73,7 @@ namespace Enemy
 
         private IEnumerator SetAttackParams()
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(1.5f);
             IsAttacking = false;
             StartCoroutine(SetCanAttackTrueAfterDelay());
         }

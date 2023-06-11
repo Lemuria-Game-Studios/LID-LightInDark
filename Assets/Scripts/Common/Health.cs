@@ -37,7 +37,7 @@ namespace Common
 
         public void ChangeHealth(float amount, Vector3 getHitPosition = default)
         {
-            if (amount < 0) getHitFb.PlayFeedbacks();
+            if (amount > 0) getHitFb.PlayFeedbacks();
             if (WeakPointEnabled && CheckIfWeakPoint(getHitPosition))currentHealth -= amount * weakPointDamageAmplification;
             else currentHealth -= amount;
             healthBarCanvas.gameObject.SetActive(true);
@@ -56,16 +56,16 @@ namespace Common
 
         public async void Push(Vector3 playerPosition)
         {
-            _rigidbody.isKinematic = false;
+            //_rigidbody.isKinematic = false;
             gameObject.GetComponent<EnemyMover>().CanMove = false;
             Vector3 pushRotation = playerPosition - transform.position;
-            _rigidbody.AddForce(-pushRotation.normalized * 30, ForceMode.Impulse);
+            _rigidbody.AddForce(-pushRotation.normalized * 500, ForceMode.Impulse);
             await Task.Delay(300);
             if (_rigidbody != null)
             {
                 _rigidbody.velocity = Vector3.zero;
                 _rigidbody.angularVelocity = Vector3.zero;
-                _rigidbody.isKinematic = true;
+                //_rigidbody.isKinematic = true;
                 gameObject.GetComponent<EnemyMover>().CanMove = true;
             }
             
