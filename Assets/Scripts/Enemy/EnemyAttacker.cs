@@ -16,6 +16,7 @@ namespace Enemy
         [SerializeField] [Range(0,10)] private float rotateSpeedInRange;
         [SerializeField] private LayerMask targetLayer;
         [SerializeField] [Min(0f)] private float attackCooldown = 0.5f;
+        [SerializeField] private bool canRotateWhileAttacking;
         
         public bool CanAttack = true;
 
@@ -35,6 +36,14 @@ namespace Enemy
         private void Start()
         {
             StartCoroutine(FOVRoutine());
+        }
+
+        private void Update()
+        {
+            if (canRotateWhileAttacking)
+            {
+                RotateTowardsTarget();
+            }
         }
 
         private IEnumerator FOVRoutine()
