@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Signals;
 using Enums;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace UI_Events
@@ -27,6 +28,13 @@ namespace UI_Events
         {
             CoreGameSignals.Instance.OnUIManagement?.Invoke(GameStates.Game);
             CoreGameSignals.Instance.OnResumingGame?.Invoke();
+        }
+
+        public void RestartButton()
+        {
+            Debug.Log("RestartButton");
+            Time.timeScale = 1;
+            SceneManager.LoadScene("SampleScene");
         }
 
         public void SkillTree()
