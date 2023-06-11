@@ -50,6 +50,9 @@ namespace Managers
                 case GameStates.SkillTree:
                     Instantiate(Resources.Load<GameObject>("UI/Skill Screen"), canvas.transform, false);
                     break;
+                case GameStates.Dead:
+                    Instantiate(Resources.Load<GameObject>("UI/Lose Screen"), canvas.transform, false);
+                    break;
             }
         }
         private void DashMeter(float amount)

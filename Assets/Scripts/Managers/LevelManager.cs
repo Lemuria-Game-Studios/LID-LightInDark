@@ -8,7 +8,6 @@ namespace Managers
 {
     public class LevelManager : MonoBehaviour
     {
-        public static LevelManager Instance;
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
@@ -24,16 +23,17 @@ namespace Managers
             CoreGameSignals.Instance.OnLoadingScene += OnLoadingScene;
         }
 
-        private async void OnLoadingScene(string sceneName)
+        private void OnLoadingScene(string sceneName)
         {
-            var scene = SceneManager.LoadSceneAsync(sceneName);
-            scene.allowSceneActivation = false;
+            Debug.Log("LevelManager");
+            SceneManager.LoadScene(sceneName);
+            /*scene.allowSceneActivation = false;
             do
             {
                 await Task.Delay(100);
-            } while (scene.progress<0.9f);
+            } while (scene.progress<0.9f);*/
 
-            scene.allowSceneActivation = true;
+            //scene.allowSceneActivation = true;
         }
 
         

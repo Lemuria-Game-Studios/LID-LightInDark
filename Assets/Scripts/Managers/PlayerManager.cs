@@ -57,27 +57,6 @@ namespace Managers
         {
             return canDash;
         }
-
-
-        /*private void DashMeter()
-        {
-            if (_dashMeter < 100)
-            {
-                _dashMeter += (Time.deltaTime)*10;
-                CoreGameSignals.Instance.DashMeter?.Invoke(_dashMeter);
-            }
-        }*/
-
-        /*private float OnGettingDashMeter()
-        {
-            return _dashMeter;
-        }
-
-        private void SetDashMeter(float amount)
-        {
-            _dashMeter=amount;
-        }*/
-
         private Transform OnGettingTransform()
         {
             return transform;
@@ -133,15 +112,15 @@ namespace Managers
         private async void Die()
         {
             AnimationSignals.Instance.OnPlayingAnimation?.Invoke(AnimationStates.Die);
-            CoreGameSignals.Instance.OnChangeGameState?.Invoke(GameStates.Die);
+            CoreGameSignals.Instance.OnChangeGameState?.Invoke(GameStates.Dead);
             await DyingStop();
         }
 
         private async Task DyingStop()
         {
-            await Task.Delay(3000);
+            await Task.Delay(2000);
+            CoreGameSignals.Instance.OnUIManagement?.Invoke(GameStates.Dead);
             CoreGameSignals.Instance.OnPausingGame?.Invoke();
-            //Ölüm UI
         }
         private AnimationStates OnGettingAnimationStates()
         {
