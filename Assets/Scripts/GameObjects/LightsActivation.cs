@@ -7,6 +7,10 @@ namespace GameObjects
     {
         private void OnTriggerEnter(Collider other)
         {
+            if (other.gameObject.layer != LayerMask.NameToLayer("Enemy"))
+            {
+                other.gameObject.GetComponent<MeshRenderer>().enabled = true;
+            }
             if (other.CompareTag("Light"))
             {
                 Transform[] childTransforms = other.GetComponentsInChildren<Transform>(true);
@@ -23,6 +27,10 @@ namespace GameObjects
 
         private void OnTriggerExit(Collider other)
         {
+            if (other.gameObject.layer != LayerMask.NameToLayer("Enemy"))
+            {
+                other.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            }
             if (other.CompareTag("Light"))
             {
                 Transform[] childTransforms = other.GetComponentsInChildren<Transform>();
