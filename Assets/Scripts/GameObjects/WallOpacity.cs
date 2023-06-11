@@ -5,15 +5,15 @@ namespace GameObjects
 {
     public class WallOpacity : MonoBehaviour
 {
-    public Material[] newMaterials; // Birden fazla materyeli değiştirmek için bir dizi materyal
-    private Dictionary<Renderer, Material[]> originalMaterialsDict = new Dictionary<Renderer, Material[]>(); // Orijinal materyalleri saklamak için bir sözlük
+    public Material[] newMaterials; 
+    private Dictionary<Renderer, Material[]> originalMaterialsDict = new Dictionary<Renderer, Material[]>(); 
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             Debug.Log("Girdi");
-            Transform root = transform.root; // Trigger'a giren objenin kök nesnesini alır
+            Transform root = transform.root; 
 
             ChangeMaterialsRecursively(root, true);
         }
@@ -24,7 +24,7 @@ namespace GameObjects
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             Debug.Log("Çıktı");
-            Transform root = transform.root; // Trigger'dan çıkan objenin kök nesnesini alır
+            Transform root = transform.root; 
 
             ChangeMaterialsRecursively(root, false);
         }
@@ -32,19 +32,19 @@ namespace GameObjects
 
     private void ChangeMaterialsRecursively(Transform parent, bool changeMaterials)
     {
-        Renderer renderer = parent.GetComponent<Renderer>(); // Child nesnedeki Renderer bileşenini alır
+        Renderer renderer = parent.GetComponent<Renderer>(); 
 
         if (renderer != null)
         {
             if (changeMaterials)
             {
-                // Orijinal materyalleri saklar
+               
                 if (!originalMaterialsDict.ContainsKey(renderer))
                 {
                     originalMaterialsDict[renderer] = renderer.materials;
                 }
 
-                // Yeni materyalleri atar
+                
                 Material[] materials = renderer.materials;
                 for (int i = 0; i < materials.Length; i++)
                 {
@@ -57,7 +57,7 @@ namespace GameObjects
             }
             else
             {
-                // Orijinal materyalleri geri yükler
+                
                 if (originalMaterialsDict.TryGetValue(renderer, out Material[] originalMaterials))
                 {
                     renderer.materials = originalMaterials;
@@ -66,7 +66,7 @@ namespace GameObjects
             }
         }
 
-        // Child nesneleri kontrol eder
+        
         for (int i = 0; i < parent.childCount; i++)
         {
             Transform child = parent.GetChild(i);

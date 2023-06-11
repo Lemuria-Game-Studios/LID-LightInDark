@@ -62,7 +62,7 @@ namespace Managers
 
         private void OnMoneyUI()
         {
-            moneyText.text = "Money: " + CoreGameSignals.Instance.OnGettingMoney.Invoke().ToString();
+            moneyText.text = "Gold: " + CoreGameSignals.Instance.OnGettingMoney.Invoke().ToString();
         }
     }
 }

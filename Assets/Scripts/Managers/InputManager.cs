@@ -48,6 +48,18 @@ namespace Managers
                 {
                     CoreGameSignals.Instance.OnResettingSkillTree.Invoke();
                 }
+
+                if (Input.GetKeyDown(KeyCode.Tab))
+                {
+                    CoreGameSignals.Instance.OnPausingGame?.Invoke();
+                    CoreGameSignals.Instance.OnUIManagement?.Invoke(GameStates.SkillTree);
+                }
+
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    CoreGameSignals.Instance.OnPausingGame?.Invoke();
+                    CoreGameSignals.Instance.OnUIManagement?.Invoke(GameStates.Pause);
+                }
             }
             else
             {

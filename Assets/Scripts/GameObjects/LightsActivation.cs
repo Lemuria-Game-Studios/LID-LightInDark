@@ -7,7 +7,7 @@ namespace GameObjects
     {
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.layer != LayerMask.NameToLayer("Enemy"))
+            if (other.gameObject.layer != LayerMask.NameToLayer("Enemy")||other.gameObject.layer != LayerMask.NameToLayer("Stages"))
             {
                 other.gameObject.GetComponent<MeshRenderer>().enabled = true;
             }
