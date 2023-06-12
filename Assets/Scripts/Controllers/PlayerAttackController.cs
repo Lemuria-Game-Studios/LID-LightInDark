@@ -13,7 +13,8 @@ namespace Controllers
         [SerializeField] private LayerMask enemyLayers;
         [SerializeField] private ushort attackTime;
         [SerializeField] private bool canAttack=true;
-
+        [SerializeField] private ParticleSystem swordTrail;
+        
         private void Awake()
         {
             attackTime = PlayerSignals.Instance.OnGettingAttackSpeed.Invoke();
@@ -35,6 +36,7 @@ namespace Controllers
             if (canAttack)
             {
                 canAttack = false;
+                swordTrail.Play();
                 switch (combo)
                 {
                     case AttackCombo.Attack1:
@@ -64,6 +66,7 @@ namespace Controllers
         private async Task WaitForAttack()
         {
             await Task.Delay(1000);
+            swordTrail.Stop();
             canAttack = true;
         }
 

@@ -26,5 +26,10 @@ namespace UI_Events
             CoreGameSignals.Instance.OnMainMenuUIManagement.Invoke(MainMenuStates.Credits);
         }
         
+        public void QuitButton()
+        {
+            Application.Quit();
+        }
+        
     }
 }

@@ -44,10 +44,10 @@ namespace Managers
                     
                 }
 
-                if (Input.GetKeyDown(KeyCode.R))
-                {
-                    CoreGameSignals.Instance.OnResettingSkillTree.Invoke();
-                }
+                // if (Input.GetKeyDown(KeyCode.R))
+                // {
+                //     CoreGameSignals.Instance.OnResettingSkillTree.Invoke();
+                // }
 
                 if (Input.GetKeyDown(KeyCode.Tab))
                 {

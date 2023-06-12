@@ -42,6 +42,11 @@ namespace UI_Events
             CoreGameSignals.Instance.OnPausingGame?.Invoke();
             CoreGameSignals.Instance.OnUIManagement?.Invoke(GameStates.SkillTree);
         }
+
+        public void QuitButton()
+        {
+            Application.Quit();
+        }
         
 
         
