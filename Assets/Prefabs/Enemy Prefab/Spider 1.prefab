@@ -570,7 +570,7 @@ Transform:
   m_GameObject: {fileID: 973066180881517069}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -12.997, y: 0.90618, z: 1.1563}
-  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 973066181692878204}
@@ -951,7 +951,7 @@ MonoBehaviour:
     Quantized: 0
     TargetBPM: 120
   DebugActive: 0
-  GameObjectToInstantiate: {fileID: 5962251149906564340, guid: 5ab386ef5247f2348b4e250f24943030,
+  GameObjectToInstantiate: {fileID: 5962251149906564340, guid: 20e545a96e943ab4eab71bfbcd4ed0fe,
     type: 3}
   PositionMode: 1
   AlsoApplyRotation: 1

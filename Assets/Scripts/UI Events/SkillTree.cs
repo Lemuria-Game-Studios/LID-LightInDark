@@ -72,7 +72,7 @@ namespace UI_Events
                     attackLevelCost += 50;
                     WritingValues();
                     PlayerSignals.Instance.OnLevelUp(LevelUp.AttackPower);
-                    //CoreGameSignals.Instance.OnSavingSkillTree.Invoke();
+                    CoreGameSignals.Instance.OnSavingSkillTree.Invoke();
                 }
             }
         }
@@ -87,7 +87,7 @@ namespace UI_Events
                     healthLevelCost += 50;
                     WritingValues();
                     PlayerSignals.Instance.OnLevelUp(LevelUp.Health);
-                    //CoreGameSignals.Instance.OnSavingSkillTree.Invoke(); 
+                    CoreGameSignals.Instance.OnSavingSkillTree.Invoke(); 
                 }
             }
         }
@@ -103,7 +103,7 @@ namespace UI_Events
                     speedLevelCost += 50;
                     WritingValues();
                     PlayerSignals.Instance.OnLevelUp(LevelUp.Speed);
-                    //CoreGameSignals.Instance.OnSavingSkillTree.Invoke();
+                    CoreGameSignals.Instance.OnSavingSkillTree.Invoke();
                 }
             }
         }
@@ -119,7 +119,7 @@ namespace UI_Events
                     attackSpeedLevelCost += 50;
                     WritingValues();
                     PlayerSignals.Instance.OnLevelUp(LevelUp.AttackSpeed);
-                    //CoreGameSignals.Instance.OnSavingSkillTree.Invoke();
+                    CoreGameSignals.Instance.OnSavingSkillTree.Invoke();
                 }
                 
             }

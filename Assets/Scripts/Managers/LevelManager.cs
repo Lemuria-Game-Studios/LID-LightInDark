@@ -25,6 +25,7 @@ namespace Managers
 
         private void OnLoadingScene(string sceneName)
         {
+            CoreGameSignals.Instance.OnResettingSkillTree?.Invoke();
             Debug.Log("LevelManager");
             SceneManager.LoadScene(sceneName);
             /*scene.allowSceneActivation = false;

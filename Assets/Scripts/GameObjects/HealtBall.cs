@@ -10,7 +10,7 @@ namespace GameObjects
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                other.gameObject.GetComponent<PlayerManager>().ChangingHealth(HealthOperations.Heal,50);
+                other.gameObject.GetComponent<PlayerManager>().ChangingHealth(HealthOperations.Heal,100);
                 Destroy(gameObject);
             }
         }
